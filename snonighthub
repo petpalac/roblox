@@ -1,5 +1,10 @@
 if game.PlaceId == 2597632885 then -- sno day
     loadstring(game:HttpGet(('https://raw.githubusercontent.com/petpalac/roblox/refs/heads/main/snodayhub')))()
+    game.StarterGui:SetCore("SendNotification", {
+    Title = "Uh oh!";
+    Text = "Wrong Hub! Using Sno Day Hub";
+    Duration = 4;
+    })
     return
 end
 
