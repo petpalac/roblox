@@ -1,5 +1,5 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/petpalac/roblox/refs/heads/main/orionfix')))()
- 
+
 local Window = OrionLib:MakeWindow({Name = "Sno Night Hub (made by petpalac)", HidePremium = false, SaveConfig = false, ConfigFolder = "OrionTest"})
 
 function hitPpl(vec, person, airshot)
@@ -246,6 +246,7 @@ OtherTab:AddButton({
 								end)
 							end
 						end)
+
 						_G.V = false
 
 						if not _G.V then
@@ -342,17 +343,41 @@ OtherTab:AddButton({
 														local itemModel = itemData.Model:Clone()
 														local cf = CFrame.new()
 
-														--itemModel.CFrame = CFrame.new(0,0,0)
-
 														-- Apply any model offset
 														if itemData.ThumbnailModelOffset then
 															cf = cf * itemData.ThumbnailModelOffset
 														end
+
+
 														itemModel:PivotTo(cf)
+
 														-- Set model parent and camera for the viewport
 														itemModel.Parent = itemFrame.itembutton.thumbnailviewport
 
 														itemFrame.itembutton.thumbnailviewport.CurrentCamera = _G.CameraInv
+
+														itemFrame.itembutton.MouseEnter:Connect(function()
+															if inv:FindFirstChild("description") then
+																spawn(function()
+																	local desc = inv:FindFirstChild("description")
+																	local itt = itemModel:Clone()
+																	local cf2 = CFrame.new()
+
+																	if itemData.ThumbnailModelOffset then
+																		cf2 = cf2 * itemData.ThumbnailModelOffset
+																	end
+
+																	itt:PivotTo(cf)
+																	desc.itembuttonframe.itembutton.thumbnailviewport:ClearAllChildren()
+																	itt.Parent = desc.itembuttonframe.itembutton.thumbnailviewport
+																end)
+																spawn(function()
+																	local desc = inv:FindFirstChild("description")
+																	desc.desc.Text = itemData.Description or "ento has left nothing here lol"
+																	desc.name.Text = itemData.Name or "ento has left nothing here again lol"
+																end)
+															end
+														end)
 
 														-- Connect item click to equip action
 														itemFrame.itembutton.MouseButton1Down:Connect(function()
