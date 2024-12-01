@@ -1,4 +1,4 @@
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/juninhoytXD/s/refs/heads/main/ooooorrr')))()
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/petpalac/roblox/refs/heads/main/orionfix')))()
 
 local Window = OrionLib:MakeWindow({Name = "Sno Day Hub (made by petpalac)", HidePremium = false, SaveConfig = false, ConfigFolder = "OrionTest"})
 
