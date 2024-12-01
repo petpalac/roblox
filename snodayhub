@@ -9,7 +9,7 @@ function hitPpl(vec, person, airshot)
 	module.playaudio = true
 	module.active = false
 	module.hitdat = {
-		[1] = person.HumanoidRootPart,
+		[1] = (person:IsA("Player") and person.Character.HumanoidRootPart or person.HumanoidRootPart),
 		[2] = Vector3.new(32, -50, 51),
 		[3] = Vector3.new(3, 5, 7),
 		[4] = Enum.Material.Snow,
