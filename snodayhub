@@ -44,6 +44,53 @@ local OtherTab = Window:MakeTab({
 	PremiumOnly = false
 })
 
+local Unused = Window:MakeTab({
+	Name = "Unused",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+Unused:AddButton({
+	Name = "Anti Knockback (Old)",
+	Callback = function()
+		_G.Anti = true
+	end    
+})
+Unused:AddButton({
+	Name = "Disable Anti Knockback (Old)",
+	Callback = function()
+		_G.Anti = false
+	end    
+})
+
+Unused:AddButton({
+	Name = "Anti Ragdoll",
+	Callback = function()
+		task.spawn(function()
+			enablePlayerControl()
+		end)
+	end    
+})
+Unused:AddButton({
+	Name = "Disable Anti Ragdoll",
+	Callback = function()
+		disconnectPlayerControl()
+	end    
+})
+
+OtherTab:AddSlider({
+	Name = "Sensibility for Anti Ragdoll",
+	Min = 0.1,
+	Max = 1,
+	Default = 0.25,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 0.05,
+	ValueName = "Sens",
+	Callback = function(Value)
+		_G.Sens = Value
+	end    
+})
+
 local Section = OtherTab:AddSection({
 	Name = "Combat"
 })
@@ -659,32 +706,51 @@ OtherTab:AddButton({
 		loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 	end    
 })
-OtherTab:AddButton({
-	Name = "Anti Ragdoll",
+
+
+Unused:AddButton({
+	Name = "Anti Knockback v1",
 	Callback = function()
-		task.spawn(function()
-			enablePlayerControl()
+		spawn(function()
+			local ins = Instance.new("RemoteEvent")
+			local hit = game.ReplicatedStorage.Remotes.Combat.Hit
+			hit.Name = "Hit1"
+			ins.Parent = game.ReplicatedStorage.Remotes.Combat
+			ins.Name = "Hit"
+			game.Players.LocalPlayer.PlayerScripts.PlayerScriptsLoader.Enabled = false
+			game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,.1,0)))
+			task.wait(.01)
+
+			game.Players.LocalPlayer.PlayerScripts.PlayerScriptsLoader.Enabled = true
+			delay(.2,function()
+				ins:Destroy()
+				hit.Name = "Hit"
+			end)
 		end)
 	end    
 })
-OtherTab:AddButton({
-	Name = "Disable Anti Ragdoll",
+Unused:AddButton({
+	Name = "Disable Anti Knockback v1",
 	Callback = function()
-		disconnectPlayerControl()
+		spawn(function()
+			--local ins = Instance.new("RemoteEvent")
+			--local hit = game.ReplicatedStorage.Remotes.Combat.Hit
+			--hit.Name = "Hit1"
+			--ins.Parent = game.ReplicatedStorage.Remotes.Combat
+			--ins.Name = "Hit"
+			game.Players.LocalPlayer.PlayerScripts.PlayerScriptsLoader.Enabled = false
+			game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,.1,0)))
+			task.wait(.01)
+
+			game.Players.LocalPlayer.PlayerScripts.PlayerScriptsLoader.Enabled = true
+			--delay(.2,function()
+			--	ins.Name = "Hit1"
+			--	hit.Name = "Hit"
+			--end)
+		end)
 	end    
 })
-OtherTab:AddButton({
-	Name = "Anti Knockback",
-	Callback = function()
-		_G.Anti = true
-	end    
-})
-OtherTab:AddButton({
-	Name = "Disable Anti Knockback",
-	Callback = function()
-		_G.Anti = false
-	end    
-})
+
 OtherTab:AddSlider({
 	Name = "Knockback Force (Click)",
 	Min = 1,
@@ -697,30 +763,7 @@ OtherTab:AddSlider({
 		_G.ClickForce = Value
 	end    
 })
-OtherTab:AddSlider({
-	Name = "Sensibility for Anti Ragdoll",
-	Min = 0.1,
-	Max = 1,
-	Default = 0.25,
-	Color = Color3.fromRGB(255,255,255),
-	Increment = 0.05,
-	ValueName = "Sens",
-	Callback = function(Value)
-		_G.Sens = Value
-	end    
-})
-OtherTab:AddSlider({
-	Name = "Distance (Nearby)",
-	Min = 1,
-	Max = 80,
-	Default = 50,
-	Color = Color3.fromRGB(255,255,255),
-	Increment = 1,
-	ValueName = "Distance",
-	Callback = function(Value)
-		_G.Distance = Value
-	end    
-})
+
 -- ACTUAL CODING GAMING:
 _G.Distance = 20
 _G.Stop = true
