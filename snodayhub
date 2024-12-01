@@ -712,20 +712,22 @@ Unused:AddButton({
 	Name = "Anti Knockback v1",
 	Callback = function()
 		spawn(function()
-			local ins = Instance.new("RemoteEvent")
-			local hit = game.ReplicatedStorage.Remotes.Combat.Hit
-			hit.Name = "Hit1"
-			ins.Parent = game.ReplicatedStorage.Remotes.Combat
-			ins.Name = "Hit"
-			game.Players.LocalPlayer.PlayerScripts.PlayerScriptsLoader.Enabled = false
-			game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,.1,0)))
-			task.wait(.01)
+			if game.Players.LocalPlayer.CameraMode == Enum.CameraMode.Classic then -- NOT RAGDOLLED!
+				local ins = Instance.new("RemoteEvent")
+				local hit = game.ReplicatedStorage.Remotes.Combat.Hit
+				hit.Name = "Hit1"
+				ins.Parent = game.ReplicatedStorage.Remotes.Combat
+				ins.Name = "Hit"
+				game.Players.LocalPlayer.PlayerScripts.PlayerScriptsLoader.Enabled = false
+				game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,.1,0)))
+				task.wait(.01)
 
-			game.Players.LocalPlayer.PlayerScripts.PlayerScriptsLoader.Enabled = true
-			delay(.2,function()
-				ins:Destroy()
-				hit.Name = "Hit"
-			end)
+				game.Players.LocalPlayer.PlayerScripts.PlayerScriptsLoader.Enabled = true
+				delay(.2,function()
+					ins:Destroy()
+					hit.Name = "Hit"
+				end)
+			end
 		end)
 	end    
 })
@@ -738,11 +740,13 @@ Unused:AddButton({
 			--hit.Name = "Hit1"
 			--ins.Parent = game.ReplicatedStorage.Remotes.Combat
 			--ins.Name = "Hit"
-			game.Players.LocalPlayer.PlayerScripts.PlayerScriptsLoader.Enabled = false
-			game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,.1,0)))
-			task.wait(.01)
+			if game.Players.LocalPlayer.CameraMode == Enum.CameraMode.Classic then -- NOT RAGDOLLED!
+				game.Players.LocalPlayer.PlayerScripts.PlayerScriptsLoader.Enabled = false
+				game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,.1,0)))
+				task.wait(.01)
 
-			game.Players.LocalPlayer.PlayerScripts.PlayerScriptsLoader.Enabled = true
+				game.Players.LocalPlayer.PlayerScripts.PlayerScriptsLoader.Enabled = true
+			end
 			--delay(.2,function()
 			--	ins.Name = "Hit1"
 			--	hit.Name = "Hit"
