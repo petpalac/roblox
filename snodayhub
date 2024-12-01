@@ -2,8 +2,9 @@ if game.PlaceId == 14689129434 then -- sno night
     game.StarterGui:SetCore("SendNotification", {
     Title = "Uh oh!";
     Text = "Wrong Hub! Using Sno Night Hub";
-    Duration = 4;
+    Duration = 2.5;
     })
+    task.wait(1)
     loadstring(game:HttpGet(('https://raw.githubusercontent.com/petpalac/roblox/refs/heads/main/snonighthub')))()
     return
 end
