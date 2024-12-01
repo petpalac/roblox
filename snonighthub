@@ -1,12 +1,12 @@
 if game.PlaceId == 2597632885 then -- sno day
-    game.StarterGui:SetCore("SendNotification", {
-    Title = "Uh oh!";
-    Text = "Wrong Hub! Using Sno Day Hub";
-    Duration = 2.5;
-    })
-    task.wait(.05)
-    loadstring(game:HttpGet(('https://raw.githubusercontent.com/petpalac/roblox/refs/heads/main/snodayhub')))()
-    return
+	game.StarterGui:SetCore("SendNotification", {
+		Title = "Uh oh!";
+		Text = "Wrong Hub! Using Sno Day Hub";
+		Duration = 2.5;
+	})
+	task.wait(.05)
+	loadstring(game:HttpGet(('https://raw.githubusercontent.com/petpalac/roblox/refs/heads/main/snodayhub')))()
+	return
 end
 
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/petpalac/roblox/refs/heads/main/orionfix')))()
@@ -40,6 +40,11 @@ end
 --other tab
 local OtherTab = Window:MakeTab({
 	Name = "Other",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+local unused = Window:MakeTab({
+	Name = "Unused",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
@@ -319,7 +324,7 @@ OtherTab:AddButton({
 												table.insert(raritySections[rarity], sectionItems)
 											end
 										end
-										
+
 										for rarityIndex, sectionItems in pairs(raritySections) do
 											local sectionFrame = frames:Clone()
 
@@ -669,7 +674,7 @@ OtherTab:AddButton({
 		loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 	end    
 })
-OtherTab:AddButton({
+unused:AddButton({
 	Name = "Anti Ragdoll",
 	Callback = function()
 		task.spawn(function()
@@ -677,24 +682,72 @@ OtherTab:AddButton({
 		end)
 	end    
 })
-OtherTab:AddButton({
+unused:AddButton({
 	Name = "Disable Anti Ragdoll",
 	Callback = function()
 		disconnectPlayerControl()
 	end    
 })
-OtherTab:AddButton({
-	Name = "Anti Knockback",
+unused:AddButton({
+	Name = "Anti Knockback (old)",
 	Callback = function()
 		_G.Anti = true
 	end    
 })
-OtherTab:AddButton({
-	Name = "Disable Anti Knockback",
+unused:AddButton({
+	Name = "Disable Anti Knockback (old)",
 	Callback = function()
 		_G.Anti = false
 	end    
 })
+
+OtherTab:AddButton({
+	Name = "Anti Knockback v1",
+	Callback = function()
+		spawn(function()
+			if game.Players.LocalPlayer.CameraMode == Enum.CameraMode.Classic then -- NOT RAGDOLLED!
+				local ins = Instance.new("RemoteEvent")
+				local hit = game.ReplicatedStorage.Remotes.Combat.Hit
+				hit.Name = "Hit1"
+				ins.Parent = game.ReplicatedStorage.Remotes.Combat
+				ins.Name = "Hit"
+				game.Players.LocalPlayer.PlayerScripts.PlayerScriptsLoader.Enabled = false
+				game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,.1,0)))
+				task.wait(.01)
+
+				game.Players.LocalPlayer.PlayerScripts.PlayerScriptsLoader.Enabled = true
+				delay(.2,function()
+					ins:Destroy()
+					hit.Name = "Hit"
+				end)
+			end
+		end)
+	end    
+})
+OtherTab:AddButton({
+	Name = "Disable Anti Knockback v1",
+	Callback = function()
+		spawn(function()
+			--local ins = Instance.new("RemoteEvent")
+			--local hit = game.ReplicatedStorage.Remotes.Combat.Hit
+			--hit.Name = "Hit1"
+			--ins.Parent = game.ReplicatedStorage.Remotes.Combat
+			--ins.Name = "Hit"
+			if game.Players.LocalPlayer.CameraMode == Enum.CameraMode.Classic then -- NOT RAGDOLLED!
+				game.Players.LocalPlayer.PlayerScripts.PlayerScriptsLoader.Enabled = false
+				game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,.1,0)))
+				task.wait(.01)
+
+				game.Players.LocalPlayer.PlayerScripts.PlayerScriptsLoader.Enabled = true
+			end
+			--delay(.2,function()
+			--	ins.Name = "Hit1"
+			--	hit.Name = "Hit"
+			--end)
+		end)
+	end    
+})
+
 OtherTab:AddSlider({
 	Name = "Knockback Force (Click)",
 	Min = 1,
