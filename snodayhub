@@ -1,1016 +1,116 @@
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/juninhoytXD/s/refs/heads/main/ooooorrr')))()
-
-local Window = OrionLib:MakeWindow({Name = "Sno Day Hub (made by petpalac)", HidePremium = false, SaveConfig = false, ConfigFolder = "OrionTest"})
-
-function hitPpl(vec, person, airshot)
-	local module = {}
-	module.pos = workspace.CurrentCamera.CFrame.Position
-	module.vel = vec
-	module.playaudio = true
-	module.active = false
-	module.hitdat = {
-		[1] = person.HumanoidRootPart,
-		[2] = Vector3.new(32, -50, 51),
-		[3] = Vector3.new(3, 5, 7),
-		[4] = Enum.Material.Snow,
-	}
-	module.startpos = module.pos
-	module.airshot = airshot or true
-	module.rotate = 3
-	module.rotatetheawesomesequel = 8
-
-	module.FireSnow = function() end
-	module.CheckCol = function() end
-	module.Update = function() end
-
-	game.ReplicatedStorage.Remotes.Combat.Hit:FireServer(module)
-end
-
---other tab
-local OtherTab = Window:MakeTab({
-	Name = "Other",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
-})
-
-local Section = OtherTab:AddSection({
-	Name = "Combat"
-})
-
-
-OtherTab:AddButton({
-	Name = "Enable Click to hit",
-	Callback = function()
-		_G.Click = true
-	end    
-})
-
-OtherTab:AddButton({
-	Name = "Disable Click to hit",
-	Callback = function()
-		_G.Click = false
-	end    
-})
-
-local yeah = nil
-
-OtherTab:AddButton({
-	Name = "Give All Hats (FE)",
-	Callback = function()
-		local e = false
-		if yeah then
-		
-		else
-			yeah = game["Run Service"].RenderStepped:Connect(function()
-				if not e then
-					e = true
-					local char = game.Players.LocalPlayer.Character
-
-					if char:FindFirstChild("yo") then
-						char:FindFirstChild("yo"):Destroy()
-					end
-					-- SNO DAY
-					_G.UISize = 0.32
-					local currentType = "Hat"
-					local ranks = {
-						RARITIES = { {
-							Name = "Common", 
-							Color3 = Color3.fromRGB(255, 255, 255)
-						}, {
-								Name = "Rare", 
-								Color3 = Color3.fromRGB(199, 246, 255)
-							}, {
-								Name = "Epic!", 
-								Color3 = Color3.fromRGB(255, 169, 237)
-							}, {
-								Name = "Legendary!!", 
-								Color3 = Color3.fromRGB(255, 175, 46)
-							}, {
-								Name = "ASCENDANT", 
-								Color3 = Color3.fromRGB(255, 38, 38)
-							}, {
-								Name = "Eldritch", 
-								Color3 = Color3.fromRGB(0, 0, 0)
-							}, {
-								Name = "Limited", 
-								Color3 = Color3.fromRGB(99, 239, 34)
-							} }, 
-					}
-
-
-					local s = Instance.new("LocalScript")
-					s.Parent = char
-					s.Name = "yo"
-					script = s
-
-					local defaultface = "rbxassetid://2597573017"
-
-					if not _G.Remote then
-						_G.Remote = game.ReplicatedStorage.Remotes.Character.Plam
-					end
-
-					_G.PlayerInfo = {
-						hat2 = "none",
-						hat = "none",
-						face = defaultface,--defaultface, -- trolfaice "rbxassetid://16814555908"
-						air = false,
-						clothing = "none",
-						Throw = false,
-						MakeSnowball = false,
-						ArmHold = false,
-						C1 = 0,
-					}
-
-					if game.ReplicatedStorage.Remotes.Character:FindFirstChild("Plam") then
-						game.ReplicatedStorage.Remotes.Character.Plam.Parent = game.ReplicatedFirst
-					end
-					local inv = game.Players.LocalPlayer.PlayerGui.ScreenGui.newinventory
-
-					task.spawn(function()
-						if not _G.Loop2 then
-							_G.Loop2 = true
-
-							while game["Run Service"].RenderStepped:Wait() do
-								local e = _G.PlayerInfo
-								--if e.face ~= "rbxassetid://2597573017" then
-								game.Players.LocalPlayer.Character.Head.TextureID = e.face
-								--end
-							end
-						end
-					end)
-
-					task.spawn(function()
-						if not _G.AnimsUpdate then
-							_G.AnimsUpdate = true
-							while task.wait(.03) do
-								local yo =  _G.PlayerInfo
-								yo.Throw = false
-								yo.MakeSnowball = false
-								yo.ArmHold = false
-								for i,v in pairs(game.Players.LocalPlayer.Character.Humanoid:GetPlayingAnimationTracks()) do
-									if _G.PlayerInfo[v] ~= nil then
-										_G.PlayerInfo[v] = true
-									end
-								end
-							end
-						end
-					end)
-
-					task.spawn(function()
-						if not _G.Loop then
-							_G.Loop = true
-							while task.wait(.2) do
-								_G.Remote:FireServer(_G.PlayerInfo)
-							end
-						end
-					end)
-
-					local v30 = Instance.new("Camera");
-					v30.CFrame = CFrame.new(Vector3.new(2, 1, -6), Vector3.new(0, 0, 0)) * CFrame.Angles(0, 0, -0.1);
-					v30.FieldOfView = 35;
-					v30.Parent = game.MaterialService
-					_G.CameraInv = v30
-
-					task.spawn(function()
-						local inv1 = inv
-						inv1.items.scrollframe.AutomaticCanvasSize = Enum.AutomaticSize.Y
-						task.spawn(function()
-							if not _G.Cat12 then
-								_G.Cat12 = true
-								inv1.catagories.Visible = true
-								for i, v in pairs(inv1.catagories:GetChildren()) do
-									if v:IsA("TextButton") then
-										if v.Text == "Face" then
-											v.MouseButton1Down:Connect(function()
-												currentType = "Face"
-												inv.Visible = false
-												delay(0.1, function()
-													inv.Visible = true
-													delay(0.125, function()
-														local i = Instance.new("Frame")
-														i.Parent = inv.items.scrollframe
-														game.Debris:AddItem(i, 0.05)
-													end)
-												end)
-											end)
-										elseif v.Text == "Hat" then
-											v.MouseButton1Down:Connect(function()
-												currentType = "Hat"
-												inv.Visible = false
-												delay(0.1, function()
-													inv.Visible = true
-													delay(0.125, function()
-														local i = Instance.new("Frame")
-														i.Parent = inv.items.scrollframe
-														game.Debris:AddItem(i, 0.05)
-													end)
-												end)
-											end)
-										elseif v.Text == "Clothing" then
-											v.MouseButton1Down:Connect(function()
-												currentType = "Clothing"
-												inv.Visible = false
-												delay(0.1, function()
-													inv.Visible = true
-													delay(0.125, function()
-														local i = Instance.new("Frame")
-														i.Parent = inv.items.scrollframe
-														game.Debris:AddItem(i, 0.05)
-													end)
-												end)
-											end)
-										end
-									end
-								end
-
-							end
-							if not _G.unrqip2 then
-								_G.unrqip2 = true
-								inv1.removers.Clothing.MouseButton1Down:Connect(function()
-									_G.PlayerInfo.clothing = ""
-								end)
-								inv1.removers.Face.MouseButton1Down:Connect(function()
-									_G.PlayerInfo.face = "rbxassetid://2597573017"
-								end)
-								inv1.removers.Hat.MouseButton1Down:Connect(function()
-									if _G.PlayerInfo.hat ~= "" then
-										_G.PlayerInfo.hat = ""
-									else
-										_G.PlayerInfo.hat2 = ""
-									end
-								end)
-							end
-						end)
-						_G.V = false
-
-						if not _G.V then
-							_G.V = true
-							local finished = true
-							print("aaaa")
-							inv.Visible = false
-							delay(.1,function()
-								inv.Visible = true
-							end)
-							inv.Changed:Connect(function(e)
-								if e ~= "Visible" then
-									return
-								end
-
-								--print('breh')
-								local sec = .2
-								if inv.Visible == true then
-									finished = false
-									--task.wait(sec)
-									local frames = game.Players.LocalPlayer.PlayerScripts.Client.Inventory.sectioncontainer:Clone()
-									local frames2 = game.Players.LocalPlayer.PlayerScripts.Client.Inventory.sectioncontainer:Clone()
-									local frames3 = game.Players.LocalPlayer.PlayerScripts.Client.Inventory.sectioncontainer:Clone()
-									local button = game.Players.LocalPlayer.PlayerScripts.Client.Inventory.itembuttonframe
-									--spawn(function()
-									local counts = 0
-									inv.items.scrollframe.ChildAdded:Wait()
-				--[[repeat wait()
-					counts += 1
-				until counts > 30 or inv.items.scrollframe.ChildAdded:Wait()]]
-									--print("yeah!")
-									--end)
-									--if workspace ~= nil then
-									--	return
-									--end
-									for i,v in pairs(inv.items.scrollframe:GetChildren()) do
-										if v:IsA("Frame") then
-											v:Destroy()
-										end
-									end
-
-									local scal = inv.UIScale.Scale
-
-									if workspace ~= nil then
-										inv.UIScale.Scale = 1
-										-- main code
-										local raritySections = {}
-										local scrollFrame = inv.items.scrollframe
-										local sections = game.ReplicatedStorage.Remotes.Data.GetAssets:InvokeServer()
-
-										for sectionIndex, sectionItems in pairs(sections) do
-											for itemIndex, itemData in pairs(sectionItems) do
-												local rarity = sectionItems.Rarity or 1  -- Default to 1 if rarity isn't provided
-
-												-- If the rarity section doesn't exist, create it
-												if not raritySections[rarity] then
-													raritySections[rarity] = {}
-												end
-
-												-- Add the item to the corresponding rarity section
-												table.insert(raritySections[rarity], sectionItems)
-											end
-										end
-										-- Loop through rarity sections and build UI
-										for rarityIndex, sectionItems in pairs(raritySections) do
-											local sectionFrame = frames:Clone()
-
-											-- If rarity data exists, set rarity label and background color
-											if ranks.RARITIES[rarityIndex] then
-												sectionFrame.rarityheading.raritylabel.Text = ranks.RARITIES[rarityIndex].Name
-												sectionFrame.rarityheading.BackgroundColor3 = ranks.RARITIES[rarityIndex].Color3
-											else
-												warn("Failed to find rarity:", rarityIndex)
-												continue  -- Skip to the next rarity if not found
-											end
-
-											-- Loop through each item in the section
-											for itemIndex, itemData in pairs(sectionItems) do
-												if sectionFrame.itemgrid:FindFirstChild(itemData.Model.Name) then
-													continue
-												end
-
-												if itemData.Type == currentType then
-
-													local itemFrame = button:Clone()
-													itemFrame.Parent = sectionFrame.itemgrid
-													itemFrame.Name = itemData.Model.Name
-
-													-- Set item thumbnail
-													itemFrame.itembutton.thumbnailimg.Image = itemData.Thumbnail or ""
-
-													-- Handle item model if viewport is enabled
-													if not itemData.DisableViewport then
-														local itemModel = itemData.Model:Clone()
-														local cf = CFrame.new()
-
-														--itemModel.CFrame = CFrame.new(0,0,0)
-
-														-- Apply any model offset
-														if itemData.ThumbnailModelOffset then
-															cf = cf * itemData.ThumbnailModelOffset
-														end
-														itemModel:PivotTo(cf)
-														-- Set model parent and camera for the viewport
-														itemModel.Parent = itemFrame.itembutton.thumbnailviewport
-
-														itemFrame.itembutton.thumbnailviewport.CurrentCamera = _G.CameraInv
-
-														-- Connect item click to equip action
-														itemFrame.itembutton.MouseButton1Down:Connect(function()
-															if itemData.Model then
-																local naem = itemData.Type:lower() or "hat"
-
-																if not _G.PlayerInfo[naem] then
-																	naem = "hat"
-																end
-
-																local val = itemData.Model.Name
-																if naem == "face" then
-																	val = itemData.Model.TextureID
-																end
-																_G.PlayerInfo[naem] = val
-																--print(naem)
-																game.Players.LocalPlayer.Character.HumanoidRootPart.equiphat:Play()
-															end
-														end)
-													end
-												end
-											end
-
-											-- Set up the section frame layout and size
-											sectionFrame.Parent = scrollFrame
-											--delay(.1,function()
-											sectionFrame.itemgrid.Size = UDim2.new(1, 0, 0, sectionFrame.itemgrid.UIGridLayout.AbsoluteContentSize.Y + 10)
-											sectionFrame.Size = UDim2.new(1, 0, 0, sectionFrame.UIListLayout.AbsoluteContentSize.Y)
-
-											scrollFrame.CanvasSize = UDim2.new(
-												0, 0, 
-												0, scrollFrame.UIListLayout.AbsoluteContentSize.Y + 10
-											)
-											--end)
-										end
-
-										delay(0.1,function()
-											inv.UIScale.Scale = workspace.CurrentCamera.ViewportSize.Y * _G.UISize / inv.Size.Y.Offset
-										end)
-
-										return
-									end
-
-
-									finished = true
-								elseif inv.Visible == false then
-									task.wait(sec + .1)
-									for i,v in pairs(inv.items.scrollframe:GetChildren()) do
-										if v:IsA("Frame") then
-											v:Destroy()
-										end
-									end
-								end
-							end)
-						end
-					end)
-
-					task.spawn(function()
-						local function IsParticle(arg1)
-							return arg1:IsA("Sparkles") or
-								arg1:IsA("ParticleEmitter") or
-								arg1:IsA("Fire") or
-								arg1:IsA("Beam") or
-								arg1:IsA("BillboardGui")
-						end
-
-						if not _G.Loop3 then
-							_G.Loop3 = true
-							while game["Run Service"].RenderStepped:Wait() do
-								local char = game.Players.LocalPlayer.Character
-								local inf = _G.PlayerInfo
-
-								inf.C1 = workspace.CurrentCamera.CFrame.LookVector.Y * -1.2
-
-								if inf.hat ~= "" then
-									if not char:FindFirstChild("hat") then
-										local hat = nil
-
-										for i,v in pairs(game.ReplicatedStorage.models:GetDescendants()) do
-											if v.Name == inf.hat then
-												hat = v:Clone()
-												hat.Parent = char
-												hat.id.Value = inf.hat
-												hat.Name = "hat" -- i know i know...
-												break
-											end
-										end
-									else
-										local hat = char:FindFirstChild("hat")
-										if hat and hat:FindFirstChild("offset") then
-											hat.CFrame = char.Head.CFrame * CFrame.new(hat.offset.Position) * CFrame.Angles(math.rad(hat.offset.Orientation.X), math.rad(hat.offset.Orientation.Y), math.rad(hat.offset.Orientation.Z))
-										end
-
-										if game.Players.LocalPlayer.CameraMode == Enum.CameraMode.LockFirstPerson then
-											hat.Transparency = 1
-											for i,v in pairs(hat:GetDescendants()) do
-												if IsParticle(v) then
-													v.Enabled = false
-												end
-
-												if v:IsA("BasePart") then
-													v.Transparency = 1
-												end
-											end
-										else
-											if hat:FindFirstChild("transparency") then
-												hat.Transparency = hat:FindFirstChild("transparency").Value
-											else
-												hat.Transparency = 0
-											end
-
-											for i,v in pairs(hat:GetDescendants()) do
-												if IsParticle(v) then
-													v.Enabled = true
-												end
-
-												if v:IsA("BasePart") then
-													if v:FindFirstChild("transparency") then
-														v.Transparency = v:FindFirstChild("transparency").Value
-													else
-														v.Transparency = 0
-													end
-												end
-											end
-										end
-
-										if hat and hat:FindFirstChild("id") then
-											if hat.id.Value ~= inf.hat then
-												hat:Destroy()
-											end
-										end
-									end
-								elseif char:FindFirstChild("hat") then
-									if char:FindFirstChild("hat") then
-										char:FindFirstChild("hat"):Destroy()
-									end
-								end
-
-								if inf.hat2 ~= "" then
-									if not char:FindFirstChild("hat2") then
-										local hat = nil
-
-										for i,v in pairs(game.ReplicatedStorage.models:GetDescendants()) do
-											if v.Name == inf.hat2 then
-												hat = v:Clone()
-												hat.Parent = char
-												hat.id.Value = inf.hat2
-												hat.Name = "hat2" -- i know i know...
-												break
-											end
-										end
-									else
-										local hat = char:FindFirstChild("hat2")
-										if hat and hat:FindFirstChild("offset") then
-											hat.CFrame = char.Head.CFrame * CFrame.new(hat.offset.Position) * CFrame.Angles(math.rad(hat.offset.Orientation.X), math.rad(hat.offset.Orientation.Y), math.rad(hat.offset.Orientation.Z))
-										end
-
-										if game.Players.LocalPlayer.CameraMode == Enum.CameraMode.LockFirstPerson then
-											hat.Transparency = 1
-											for i,v in pairs(hat:GetDescendants()) do
-												if IsParticle(v) then
-													v.Enabled = false
-												end
-
-												if v:IsA("BasePart") then
-													v.Transparency = 1
-												end
-											end
-										else
-											if hat:FindFirstChild("transparency") then
-												hat.Transparency = hat:FindFirstChild("transparency").Value
-											else
-												hat.Transparency = 0
-											end
-
-											for i,v in pairs(hat:GetDescendants()) do
-												if IsParticle(v) then
-													v.Enabled = true
-												end
-
-												if v:IsA("BasePart") then
-													if v:FindFirstChild("transparency") then
-														v.Transparency = v:FindFirstChild("transparency").Value
-													else
-														v.Transparency = 0
-													end
-												end
-											end
-										end
-
-										if hat and hat:FindFirstChild("id") then
-											if hat.id.Value ~= inf.hat2 then
-												hat:Destroy()
-											end
-										end
-									end
-								elseif char:FindFirstChild("hat2") then
-									if char:FindFirstChild("hat2") then
-										char:FindFirstChild("hat2"):Destroy()
-									end
-								end
-
-								if inf.clothing ~= "" then
-									if not char:FindFirstChild("clothing") then
-										local hat = nil
-
-										for i,v in pairs(game.ReplicatedStorage.models:GetDescendants()) do
-											if v.Name == inf.clothing then
-												hat = v:Clone()
-												hat.Parent = char
-												hat.id.Value = inf.clothing
-												hat.Name = "clothing" -- i know i know...
-												break
-											end
-										end
-									else
-										local hat = char:FindFirstChild("clothing")
-										if hat and hat:FindFirstChild("offset") then
-											hat.CFrame = char.Torso.CFrame * CFrame.new(hat.offset.Position) * CFrame.Angles(math.rad(hat.offset.Orientation.X), math.rad(hat.offset.Orientation.Y), math.rad(hat.offset.Orientation.Z))
-										end
-
-										if hat and hat:FindFirstChild("id") then
-											if hat.id.Value ~= inf.clothing then
-												hat:Destroy()
-											end
-										end
-									end
-								elseif char:FindFirstChild("clothing") then
-									if char:FindFirstChild("clothing") then
-										char:FindFirstChild("clothing"):Destroy()
-									end
-								end
-							end
-						end
-					end)
-				end
-			end)
-		end
-	end    
-})
-
-OtherTab:AddTextbox({
-	Name = "Corrupt someone (Mobile ppl only)",
-	Default = "",
-	TextDisappear = true,
-	Callback = function(Value)
-		local searchValue = string.lower(Value)  -- Convert input to lowercase
-		for _, player in pairs(game.Players:GetPlayers()) do
-			local playerName = string.lower(player.Name)  -- Convert player name to lowercase
-			if string.sub(playerName, 1, #searchValue) == searchValue then  -- Check if player's name starts with the input
-				local playar = player
-				local mag = (playar.Character.HumanoidRootPart.Position - playar.Character.HumanoidRootPart.Position).Unit
-				hitPpl(mag * 20, playar, true)
-				break
-			end
-		end
-	end   
-})
-
-OtherTab:AddTextbox({
-	Name = "Fling someone",
-	Default = "",
-	TextDisappear = true,
-	Callback = function(Value)
-		local searchValue = string.lower(Value)  -- Convert input to lowercase
-		for _, player in pairs(game.Players:GetPlayers()) do
-			local playerName = string.lower(player.Name)  -- Convert player name to lowercase
-			if string.sub(playerName, 1, #searchValue) == searchValue then  -- Check if player's name starts with the input
-				local playar = player
-				local mag = (playar.Character.HumanoidRootPart.Position - playar.Character.HumanoidRootPart.Position).Unit
-				game.ReplicatedStorage.Remotes.Combat.Hit:FireServer(Vector3.new(1250535,1250535,0), true, playar)
-				hitPpl(Vector3.new(120^5,120^5,-1), playar, true)
-				break
-			end
-		end
-	end   
-})
-
-OtherTab:AddButton({
-	Name = "Get all available hats (Ones you can get from touching it)",
-	Callback = function()
-		for i,v in pairs(workspace.hatgivers:GetDescendants()) do
-			if v:IsA("BasePart") then
-				game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(v.Position))
-				task.wait()
-			end
-		end
-	end    
-})
-
-OtherTab:AddButton({
-	Name = "Infinite yield",
-	Callback = function()
-		loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-	end    
-})
-
-OtherTab:AddButton({
-	Name = "Anti Ragdoll",
-	Callback = function()
-		task.spawn(function()
-			enablePlayerControl()
-		end)
-	end    
-})
-
-OtherTab:AddButton({
-	Name = "Disable Anti Ragdoll",
-	Callback = function()
-		disconnectPlayerControl()
-	end    
-})
-
-OtherTab:AddButton({
-	Name = "Anti Knockback",
-	Callback = function()
-		_G.Anti = true
-	end    
-})
-
-OtherTab:AddButton({
-	Name = "Disable Anti Knockback",
-	Callback = function()
-		_G.Anti = false
-	end    
-})
-
-
-OtherTab:AddSlider({
-	Name = "Knockback Force (Click)",
-	Min = 1,
-	Max = 500,
-	Default = 50,
-	Color = Color3.fromRGB(255,255,255),
-	Increment = 1,
-	ValueName = "Knockback",
-	Callback = function(Value)
-		_G.ClickForce = Value
-	end    
-})
-
-OtherTab:AddSlider({
-	Name = "Sensibility for Anti Ragdoll",
-	Min = 0.1,
-	Max = 1,
-	Default = 0.25,
-	Color = Color3.fromRGB(255,255,255),
-	Increment = 0.05,
-	ValueName = "Sens",
-	Callback = function(Value)
-		_G.Sens = Value
-	end    
-})
-
-OtherTab:AddSlider({
-	Name = "Distance (Nearby)",
-	Min = 1,
-	Max = 80,
-	Default = 50,
-	Color = Color3.fromRGB(255,255,255),
-	Increment = 1,
-	ValueName = "Distance",
-	Callback = function(Value)
-		_G.Distance = Value
-	end    
-})
-
--- ACTUAL CODING GAMING:
-
-_G.Distance = 20
-_G.Stop = true
-_G.X = 1
-_G.Y = 50
-_G.Z = 1
-_G.Anti = false
-_G.Click = false
-_G.ClickForce = 50
-
-game.ReplicatedStorage.Remotes.Combat.Hit.OnClientEvent:Connect(function(a,b,c,d)
-	if _G.Anti then
-		task.wait()
-		game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.zero
-	end
-end)
-
-local connections = {}
-
-function enablePlayerControl()
-	local player = game:GetService("Players").LocalPlayer
-	repeat wait() until player.Character
-	local runService = game:GetService("RunService")
-	local input = game:GetService("UserInputService")
-	local cam = game.Workspace.CurrentCamera
-	local m = player:GetMouse()
-	local character = player.Character
-	local human = character.Humanoid
-	local humanoidpart = character.HumanoidRootPart
-	local head = character:WaitForChild("Head")
-
-	-- Settings and variables
-	_G.Sens = 8
-	CanToggleMouse = {allowed = false; activationkey = Enum.KeyCode.F;}
-	CanViewBody = true
-	Sensitivity = _G.Sens
-	Smoothness = 1
-	FieldOfView = 70
-	HeadOffset = CFrame.new(0,0.6,0)
-
-	local CamPos, TargetCamPos = cam.CoordinateFrame.p, cam.CoordinateFrame.p
-	local AngleX, TargetAngleX = 0, 0
-	local AngleY, TargetAngleY = 0, 0
-	local running = true
-	local freemouse = false
-	local defFOV = FieldOfView
-	local w, a, s, d, lshift = false, false, false, false, false
-
-	-- Walkspeed settings
-	local walkspeeds = {
-		enabled = true;
-		walkingspeed = 16;
-		backwardsspeed = 10;
-		sidewaysspeed = 15;
-		diagonalspeed = 16;
-		runningspeed = 25;
-		runningFOV = 85;
-	}
-
-	-- Functions
-	local function lerp(a, b, t)
-		return a * (1 - t) + (b * t)
-	end
-
-	local function updatechar()
-		for _, v in pairs(character:GetChildren()) do
-			if v.Name == 'Head' and v:FindFirstChild("Hat") then
-				v.Hat.Size = Vector3.new(0.002, 0.002, 0.002)
-			end
-			if CanViewBody then
-				if v.Name == 'Head' then
-					v.LocalTransparencyModifier = 1
-					v.CanCollide = false
-				end
-			else
-				if v:IsA('Part') or v:IsA('UnionOperation') or v:IsA('MeshPart') then
-					v.LocalTransparencyModifier = 1
-					v.CanCollide = false
-				end
-			end
-			if v:IsA('Accessory') or v:IsA('Hat') then
-				v.Handle.LocalTransparencyModifier = 1
-				v.Handle.CanCollide = false
-			end
-		end
-	end
-
-	-- Event handlers
-	connections[#connections + 1] = input.InputChanged:Connect(function(inputObject)
-		if inputObject.UserInputType == Enum.UserInputType.MouseMovement then
-			local delta = Vector2.new(inputObject.Delta.x / Sensitivity, inputObject.Delta.y / Sensitivity) * Smoothness
-			local X = TargetAngleX - delta.y
-			TargetAngleX = math.clamp(X, -80, 80)
-			TargetAngleY = (TargetAngleY - delta.x) % 360
-		end
-	end)
-
-	connections[#connections + 1] = input.InputBegan:Connect(function(inputObject)
-		if inputObject.UserInputType == Enum.UserInputType.Keyboard then
-			if inputObject.KeyCode == CanToggleMouse.activationkey then
-				freemouse = not freemouse
-			end
-			if inputObject.KeyCode == Enum.KeyCode.W then w = true end
-			if inputObject.KeyCode == Enum.KeyCode.A then a = true end
-			if inputObject.KeyCode == Enum.KeyCode.S then s = true end
-			if inputObject.KeyCode == Enum.KeyCode.D then d = true end
-			if inputObject.KeyCode == Enum.KeyCode.LeftShift then lshift = true end
-		end
-	end)
-
-	connections[#connections + 1] = input.InputEnded:Connect(function(inputObject)
-		if inputObject.UserInputType == Enum.UserInputType.Keyboard then
-			if inputObject.KeyCode == Enum.KeyCode.W then w = false end
-			if inputObject.KeyCode == Enum.KeyCode.A then a = false end
-			if inputObject.KeyCode == Enum.KeyCode.S then s = false end
-			if inputObject.KeyCode == Enum.KeyCode.D then d = false end
-			if inputObject.KeyCode == Enum.KeyCode.LeftShift then lshift = false end
-		end
-	end)
-
-	connections[#connections + 1] = runService.RenderStepped:Connect(function()
-		Sensitivity = _G.Sens
-		if game.Players:FindFirstChild("Entomatadas") then
-			game.Players.LocalPlayer:Kick("Entoma is here")
-		end
-		if running then
-			updatechar()
-			CamPos = CamPos + (TargetCamPos - CamPos) * 0.28
-			AngleX = AngleX + (TargetAngleX - AngleX) * 0.35
-			local dist = TargetAngleY - AngleY
-			dist = math.abs(dist) > 180 and dist - (dist / math.abs(dist)) * 360 or dist
-			AngleY = (AngleY + dist * 0.35) % 360
-
-			cam.CameraType = Enum.CameraType.Scriptable
-			cam.CoordinateFrame = CFrame.new(head.Position) * CFrame.Angles(0, math.rad(AngleY), 0) * CFrame.Angles(math.rad(AngleX), 0, 0) * HeadOffset
-
-			humanoidpart.CFrame = CFrame.new(humanoidpart.Position) * CFrame.Angles(0, math.rad(AngleY), 0)
-			game:GetService("UserInputService").MouseBehavior = freemouse and Enum.MouseBehavior.Default or Enum.MouseBehavior.LockCenter
-		else
-			game:GetService("UserInputService").MouseBehavior = Enum.MouseBehavior.Default
-		end
-
-		cam.FieldOfView = FieldOfView
-
-		-- Walkspeed and FOV adjustments
-		if walkspeeds.enabled then
-			if w and not lshift then
-				FieldOfView = lerp(FieldOfView, defFOV, 0.1)
-				human.WalkSpeed = lerp(human.WalkSpeed, walkspeeds.walkingspeed, 0.1)
-			elseif lshift and w then
-				FieldOfView = lerp(FieldOfView, walkspeeds.runningFOV, 0.1)
-				human.WalkSpeed = lerp(human.WalkSpeed, walkspeeds.runningspeed, 0.1)
-			end
-		end
-	end)
-end
-
-function disconnectPlayerControl()
-	for _, connection in pairs(connections) do
-		connection:Disconnect()
-	end
-	connections = {}
-	workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
-	for _, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-		if v:IsA("Part") or v:IsA("MeshPart") then
-			if v.Name == 'Head' then
-				--v.Hat.Size = Vector3.new(0.002, 0.002, 0.002)
-				v.LocalTransparencyModifier = 0
-				v.Transparency = 0
-				v.CanCollide = true
-			end
-			if v:IsA('Part') or v:IsA('UnionOperation') or v:IsA('MeshPart') then
-				v.LocalTransparencyModifier = 0
-				v.CanCollide = false
-			end
-		end
-	end
-end
-
-
-local player = game.Players.LocalPlayer
-local mouse = player:GetMouse()
-
-local function getPlayerFromMouse2(target)
-	if target and target.Parent then
-		local character = target.Parent
-		local player = game.Players:GetPlayerFromCharacter(character)
-		if player and player ~= game.Players.LocalPlayer then -- Ensure it's not the local player
-			return player
-		end
-	end
-	return nil
-end
-
-local function getPlayerFromRaycast()
-	-- Raycast parameters
-	local Camera = workspace.CurrentCamera
-	local rayOrigin = Camera.CFrame.Position
-	local rayDirection = Camera.CFrame.LookVector * 700 -- 100 studs max distance
-
-	local raycastParams = RaycastParams.new()
-	raycastParams.FilterType = Enum.RaycastFilterType.Exclude -- Exclude specific objects
-	raycastParams.FilterDescendantsInstances = {game.Players.LocalPlayer.Character} -- Ignore the local player's character
-
-	-- Perform the raycast
-	local raycastResult = workspace:Raycast(rayOrigin, rayDirection, raycastParams)
-
-	if raycastResult then
-		local target = raycastResult.Instance
-		local player = getPlayerFromMouse2(target)
-		if player then
-			print("Hit player:", player.Name)
-			return player
-		else
-			print("Hit object, but no player detected.")
-		end
-	else
-		print("No hit.")
-	end
-	return nil
-end
-
-local function knockbackPlayer(clickedPlayer)
-	if clickedPlayer and clickedPlayer.Character and clickedPlayer.Character:FindFirstChild("HumanoidRootPart") then
-		local localPlayer = game.Players.LocalPlayer
-		local localPosition = localPlayer.Character.HumanoidRootPart.Position
-		local clickedPosition = clickedPlayer.Character.HumanoidRootPart.Position
-
-		-- Calculate the knockback direction using the unit vector
-		local knockbackDirection = (clickedPosition - localPosition).Unit
-
-		-- Apply a knockback force (scaling the unit vector)
-		local knockbackForce = knockbackDirection * _G.ClickForce -- Adjust this multiplier as needed
-
-		-- Fire the server event with the calculated knockback direction
-		--game.ReplicatedStorage.Remotes.Combat.Hit:FireServer(knockbackForce, true, clickedPlayer)
-		hitPpl(knockbackForce,clickedPlayer.Character,true)
-	end
-end
-
-mouse.Button1Down:Connect(function()
-	if _G.Click == true then 
-		local target = mouse.Target
-		local clickedPlayer = getPlayerFromRaycast()
-
-		if clickedPlayer and clickedPlayer ~= game.Players.LocalPlayer then
-			knockbackPlayer(clickedPlayer)
-		end
-	end
-end)
-
-local function isPlayerInRange(player, origin, radius)
-	if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-		local playerPosition = player.Character.HumanoidRootPart.Position
-		return (origin - playerPosition).Magnitude <= radius
-	end
-	return false
-end
-
-local function getNearbyPlayer()
-	local localPlayer = game.Players.LocalPlayer
-	if localPlayer and localPlayer.Character and localPlayer.Character:FindFirstChild("HumanoidRootPart") then
-		local origin = localPlayer.Character.HumanoidRootPart.Position
-		local radius = _G.Distance
-		local players = game.Players:GetPlayers()
-
-		for _, player in pairs(players) do
-			if player ~= localPlayer and isPlayerInRange(player, origin, radius) then
-				return player
-			end
-		end
-	end
-	return nil
-end
-OrionLib:Init()
-
-task.spawn(function()
-	while true do
-		local nearbyPlayer = getNearbyPlayer()
-
-		if nearbyPlayer and _G.Stop == false then
-			local localPlayer = game.Players.LocalPlayer
-			local localHumanoidRootPart = localPlayer.Character.HumanoidRootPart
-			local nearbyHumanoidRootPart = nearbyPlayer.Character.HumanoidRootPart
-
-			-- Calculate direction (unit vector) from nearby player to local player
-			local direction = -(nearbyHumanoidRootPart.Position - localHumanoidRootPart.Position).Unit
-			local knockbackStrength = 3 -- Adjust the strength as needed
-			local knockback = direction * knockbackStrength
-
-			-- Fire the server event with the knockback direction
-			hitPpl(Vector3.new(_G.X,_G.Y,_G.Z),nearbyPlayer.Character,true)
-			--game.ReplicatedStorage.Remotes.Combat.Hit:FireServer(Vector3.new(_G.X,_G.Y,_G.Z), true, nearbyPlayer)
-		end
-
-		wait(0.1) -- Adjust the loop interval as needed
-	end
-end)
+                                                                                 local OrionLib=       
+                                                                        loadstring(game:HttpGet(                        
+                                                                                                                                  
+                                                                                                                                        
+                                                            "https://raw.githubusercontent.com/juninhoytXD/s/refs/heads/main/ooooorrr"))( 
+                                                          );local Window=OrionLib:MakeWindow({Name="Sno Day Hub (made by petpalac)",        
+                                                        HidePremium=false,SaveConfig=false,ConfigFolder="OrionTest"});function hitPpl(vec,    
+                                                      person,airshot) local module={};module.pos=workspace.CurrentCamera.CFrame.Position;module 
+                                                    .vel=vec;module.playaudio=true;module.active=false;module.hitdat={[1]=person.HumanoidRootPart 
+                                                  ,[2]=Vector3.new(32, -50,51),[3]=Vector3.new(3,5,7),[4]=Enum.Material.Snow};module.startpos=      
+                                                  module.pos;module.airshot=airshot or true ;module.rotate=3;module.rotatetheawesomesequel=8;module.  
+                                                FireSnow=function() end;module.CheckCol=function() end;module.Update=function() end;game.               
+                                                ReplicatedStorage.Remotes.Combat.Hit:FireServer(module);end local OtherTab=Window:MakeTab({Name="Other",  
+                                              Icon="rbxassetid://4483345998",PremiumOnly=false});local Section=OtherTab:AddSection({Name="Combat"});        
+                                              OtherTab:AddButton({Name="Enable Click to hit",Callback=function() _G.Click=true;end});OtherTab:AddButton({   
+                                            Name="Disable Click to hit",Callback=function() _G.Click=false;end});local yeah=nil;OtherTab:AddButton({Name=     
+                                            "Give All Hats (FE)",Callback=function() local e=false;if yeah then else yeah=game["Run Service"].RenderStepped:    
+                                          Connect(function() if  not e then e=true;local char=game.Players.LocalPlayer.Character;if char:FindFirstChild("yo")     
+                                          then char:FindFirstChild("yo"):Destroy();end _G.UISize=0.32;local currentType="Hat";local ranks={RARITIES={{Name="Common" 
+                                          ,Color3=Color3.fromRGB(255,255,255)},{Name="Rare",Color3=Color3.fromRGB(199,246,255)},{Name="Epic!",Color3=Color3.fromRGB(  
+                                          255,169,237)},{Name="Legendary!!",Color3=Color3.fromRGB(255,175,46)},{Name="ASCENDANT",Color3=Color3.fromRGB(255,38,38)},{  
+                                        Name="Eldritch",Color3=Color3.fromRGB(0,0,0)},{Name="Limited",Color3=Color3.fromRGB(99,239,34)}}};local s=Instance.new(         
+                                        "LocalScript");s.Parent=char;s.Name="yo";script=s;local defaultface=  --[[==============================]]                        
+                                        "rbxassetid://2597573017";if  not _G.Remote then _G.Remote= --[[============================================]]game.               
+                                        ReplicatedStorage.Remotes.Character.Plam;end _G.        --[[======================================================]]PlayerInfo={    
+                                      hat2="none",hat="none",face=defaultface,air=false,    --[[==========================================================]]clothing="none",  
+                                      Throw=false,MakeSnowball=false,ArmHold=false,C1=0}; --[[==============================================================]]if game.        
+                                      ReplicatedStorage.Remotes.Character:FindFirstChild( --[[================================================================]]"Plam") then    
+                                      game.ReplicatedStorage.Remotes.Character.Plam.      --[[==================================================================]]Parent=game.  
+                                      ReplicatedFirst;end local inv=game.Players.         --[[==================================================================]]LocalPlayer.      
+                                    PlayerGui.ScreenGui.newinventory;task.spawn(function( --[[====================================================================]]) if  not _G. 
+                    Loop2 then _G.Loop2=true;while game["Run Service"].RenderStepped:Wait --[[====================================================================]]() do local e=  
+              _G.PlayerInfo;game.Players.LocalPlayer.Character.Head.TextureID=e.face;end  --[[======================================================================]]end end);task 
+            .spawn(function() if  not _G.AnimsUpdate then _G.AnimsUpdate=true;while task. --[[======================================================================]]wait(0.03) do 
+           local yo=_G.PlayerInfo;yo.Throw=false;yo.MakeSnowball=false;yo.ArmHold=false;  --[[======================================================================]]for i,v in    
+        pairs(game.Players.LocalPlayer.Character.Humanoid:GetPlayingAnimationTracks()) do --[[======================================================================]] if (_G.      
+        PlayerInfo[v]~=nil) then _G.PlayerInfo[v]=true;end end end end end);task.spawn(   --[[======================================================================]]function() if 
+        not _G.Loop then _G.Loop=true;while task.wait(0.2) do _G.Remote:FireServer(_G.    --[[======================================================================]]PlayerInfo);  
+      end end end);local v30=Instance.new("Camera");v30.CFrame=CFrame.new(Vector3.new(2,1,  --[[==================================================================]]-6),Vector3.new 
+      (0,0,0)) * CFrame.Angles(0,0, -0.1) ;v30.FieldOfView=35;v30.Parent=game.              --[[================================================================]]MaterialService;  
+    _G.CameraInv=v30;task.spawn(function() local inv1=inv;inv1.items.scrollframe.           --[[==============================================================]]                  
+    AutomaticCanvasSize=Enum.AutomaticSize.Y;task.spawn(function() if  not _G.Cat12 then _G.  --[[==========================================================]]Cat12=true;inv1.    
+    catagories.Visible=true;for i,v in pairs(inv1.catagories:GetChildren()) do if v:IsA(        --[[====================================================]]"TextButton") then if ( 
+    v.Text=="Face") then v.MouseButton1Down:Connect(function() currentType="Face";inv.Visible=    --[[==============================================]]false;delay(0.1,function( 
+    ) inv.Visible=true;delay(0.125,function() local i=Instance.new("Frame");i.Parent=inv.items.       --[[====================================]]scrollframe;game.Debris:      
+    AddItem(i,0.05);end);end);end);elseif (v.Text=="Hat") then v.MouseButton1Down:Connect(function()      --[[========================]]currentType="Hat";inv.Visible=false;  
+    delay(0.1,function() inv.Visible=true;delay(0.125,function() local i=Instance.new("Frame");i.Parent=inv.items.scrollframe;game.Debris:AddItem(i,0.05);end);end);end);   
+  elseif (v.Text=="Clothing") then v.MouseButton1Down:Connect(function() currentType="Clothing";inv.Visible=false;delay(0.1,function() inv.Visible=true;delay(0.125,      
+  function() local i=Instance.new("Frame");i.Parent=inv.items.scrollframe;game.Debris:AddItem(i,0.05);end);end);end);end end end end if  not _G.unrqip2 then _G.unrqip2 
+  =true;inv1.removers.Clothing.MouseButton1Down:Connect(function() _G.PlayerInfo.clothing="";end);inv1.removers.Face.MouseButton1Down:Connect(function() _G.PlayerInfo.   
+  face="rbxassetid://2597573017";end);inv1.removers.Hat.MouseButton1Down:Connect(function() if (_G.PlayerInfo.hat~="") then _G.PlayerInfo.hat="";else _G.PlayerInfo.hat2= 
+  "";end end);end end);_G.V=false;if  not _G.V then _G.V=true;local finished=true;print("aaaa");inv.Visible=false;delay(0.1,function() inv.Visible=true;end);inv.Changed: 
+  Connect(function(e) if (e~="Visible") then return;end local sec=0.2;if (inv.Visible==true) then finished=false;local frames=game.Players.LocalPlayer.PlayerScripts.     
+  Client.Inventory.sectioncontainer:Clone();local frames2=game.Players.LocalPlayer.PlayerScripts.Client.Inventory.sectioncontainer:Clone();local frames3=game.Players.    
+  LocalPlayer.PlayerScripts.Client.Inventory.sectioncontainer:Clone();local button=game.Players.LocalPlayer.PlayerScripts.Client.Inventory.itembuttonframe;local counts=0 
+  ;inv.items.scrollframe.ChildAdded:Wait();for i,v in pairs(inv.items.scrollframe:GetChildren()) do if v:IsA("Frame") then v:Destroy();end end local scal=inv.UIScale.    
+  Scale;if (workspace~=nil) then inv.UIScale.Scale=1;local raritySections={};local scrollFrame=inv.items.scrollframe;local sections=game.ReplicatedStorage.Remotes.Data.  
+  GetAssets:InvokeServer();for sectionIndex,sectionItems in pairs(sections) do for itemIndex,itemData in pairs(sectionItems) do local rarity=sectionItems.Rarity or 1 ;if 
+    not raritySections[rarity] then raritySections[rarity]={};end table.insert(raritySections[rarity],sectionItems);end end for rarityIndex,sectionItems in pairs(          
+  raritySections) do local sectionFrame=frames:Clone();if ranks.RARITIES[rarityIndex] then sectionFrame.rarityheading.raritylabel.Text=ranks.RARITIES[rarityIndex].Name;    
+  sectionFrame.rarityheading.BackgroundColor3=ranks.RARITIES[rarityIndex].Color3;else warn("Failed to find rarity:",rarityIndex);continue;end for itemIndex,itemData in     
+  pairs(sectionItems) do if sectionFrame.itemgrid:FindFirstChild(itemData.Model.Name) then continue;end if (itemData.Type==currentType) then local itemFrame=button:Clone() 
+  ;itemFrame.Parent=sectionFrame.itemgrid;itemFrame.Name=itemData.Model.Name;itemFrame.itembutton.thumbnailimg.Image=itemData.Thumbnail or "" ;if  not itemData.            
+  DisableViewport then local itemModel=itemData.Model:Clone();local cf=CFrame.new();if itemData.ThumbnailModelOffset then cf=cf * itemData.ThumbnailModelOffset ;end        
+  itemModel:PivotTo(cf);itemModel.Parent=itemFrame.itembutton.thumbnailviewport;itemFrame.itembutton.thumbnailviewport.CurrentCamera=_G.CameraInv;itemFrame.itembutton.     
+  MouseButton1Down:Connect(function() if itemData.Model then local naem=itemData.Type:lower() or "hat" ;if  not _G.PlayerInfo[naem] then naem="hat";end local val=itemData. 
+  Model.Name;if (naem=="face") then val=itemData.Model.TextureID;end _G.PlayerInfo[naem]=val;game.Players.LocalPlayer.Character.HumanoidRootPart.equiphat:Play();end end);  
+  end end end sectionFrame.Parent=scrollFrame;sectionFrame.itemgrid.Size=UDim2.new(1,0,0,sectionFrame.itemgrid.UIGridLayout.AbsoluteContentSize.Y + 10 );sectionFrame.Size= 
+  UDim2.new(1,0,0,sectionFrame.UIListLayout.AbsoluteContentSize.Y);scrollFrame.CanvasSize=UDim2.new(0,0,0,scrollFrame.UIListLayout.AbsoluteContentSize.Y + 10 );end delay(  
+  0.1,function() inv.UIScale.Scale=(workspace.CurrentCamera.ViewportSize.Y * _G.UISize)/inv.Size.Y.Offset ;end);return;end finished=true;elseif (inv.Visible==false) then   
+  task.wait(sec + 0.1 );for i,v in pairs(inv.items.scrollframe:GetChildren()) do if v:IsA("Frame") then v:Destroy();end end end end);end end);task.spawn(function() local   
+  function IsParticle(arg1) return arg1:IsA("Sparkles") or arg1:IsA("ParticleEmitter") or arg1:IsA("Fire") or arg1:IsA("Beam") or arg1:IsA("BillboardGui") ;end if  not   
+  _G.Loop3 then _G.Loop3=true;while game["Run Service"].RenderStepped:Wait() do local char=game.Players.LocalPlayer.Character;local inf=_G.PlayerInfo;inf.C1=workspace.   
+  CurrentCamera.CFrame.LookVector.Y *  -1.2 ;if (inf.hat~="") then if  not char:FindFirstChild("hat") then local hat=nil;for i,v in pairs(game.ReplicatedStorage.models:  
+    GetDescendants()) do if (v.Name==inf.hat) then hat=v:Clone();hat.Parent=char;hat.id.Value=inf.hat;hat.Name="hat";break;end end else local hat=char:FindFirstChild(    
+    "hat");if (hat and hat:FindFirstChild("offset")) then hat.CFrame=char.Head.CFrame * CFrame.new(hat.offset.Position) * CFrame.Angles(math.rad(hat.offset.Orientation.X 
+    ),math.rad(hat.offset.Orientation.Y),math.rad(hat.offset.Orientation.Z)) ;end if (game.Players.LocalPlayer.CameraMode==Enum.CameraMode.LockFirstPerson) then hat.     
+    Transparency=1;for i,v in pairs(hat:GetDescendants()) do if IsParticle(v) then v.Enabled=false;end if v:IsA("BasePart") then v.Transparency=1;end end else if hat:    
+      FindFirstChild("transparency") then hat.Transparency=hat:FindFirstChild("transparency").Value;else hat.Transparency=0;end for i,v in pairs(hat:GetDescendants())  
+      do if IsParticle(v) then v.Enabled=true;end if v:IsA("BasePart") then if v:FindFirstChild("transparency") then v.Transparency=v:FindFirstChild("transparency").   
+      Value;else v.Transparency=0;end end end end if (hat and hat:FindFirstChild("id")) then if (hat.id.Value~=inf.hat) then hat:Destroy();end end end elseif char:     
+        FindFirstChild("hat") then if char:FindFirstChild("hat") then char:FindFirstChild("hat"):Destroy();end end if (inf.hat2~="") then if  not char:FindFirstChild(  
+        "hat2") then local hat=nil;for i,v in pairs(game.ReplicatedStorage.models:GetDescendants()) do if (v.Name==inf.hat2) then hat=v:Clone();hat.Parent=char;hat.id. 
+        Value=inf.hat2;hat.Name="hat2";break;end end else local hat=char:FindFirstChild("hat2");if (hat and hat:FindFirstChild("offset")) then hat.CFrame=char.Head.    
+          CFrame * CFrame.new(hat.offset.Position) * CFrame.Angles(math.rad(hat.offset.Orientation.X),math.rad(hat.offset.Orientation.Y),math.rad(hat.offset.         
+            Orientation.Z)) ;end if (game.Players.LocalPlayer.CameraMode==Enum.CameraMode.LockFirstPerson) then hat.Transparency=1;for i,v in pairs(hat:              
+              GetDescendants()) do if IsParticle(v) then v.Enabled=false;end if v:IsA("BasePart") then v.Transparency=1;end end else if hat:FindFirstChild(           
+                "transparency") then hat.Transparency=hat:FindFirstChild("transparency").Value;else hat.Transparency=0;end for i,v in pairs(hat:GetDescendants()) do  
+                  if IsParticle(v) then v.Enabled=true;end if v:IsA("BasePart") then if v:FindFirstChild("transparency") then v.Transparency=v:FindFirstChild(      
+                      "transparency").Value;else v.Transparency=0;end end end end if (hat and hat:FindFirstChild("id")) then if (hat.id.Value~=inf.hat2) then hat:  
+                                  Destroy();end end end elseif char:FindFirstChild("hat2") then if char:FindFirstChild("hat2") then char:FindFirstChild("hat2"):    
+                                      Destroy();end end if (inf.clothing~="") then if  not char:FindFirstChild("clothing") then local hat=nil;for i,v in pairs(game 
+                                      .ReplicatedStorage.models:GetDescendants()) do if (v.Name==           inf.clothing) then hat=v:Clone();hat.Parent=char;hat.id 
+                                      .Value=inf.clothing;hat.Name="clothing";break;end end else            local hat=char:FindFirstChild("clothing");if (hat and 
+                                       hat:FindFirstChild("offset")) then hat.CFrame=char.Torso.            CFrame * CFrame.new(hat.offset.Position) * CFrame.    
+                                      Angles(math.rad(hat.offset.Orientation.X),math.rad(hat.offset         .Orientation.Y),math.rad(hat.offset.Orientation.Z)) ; 
+                                      end if (hat and hat:FindFirstChild("id")) then if (hat.id.              Value~=inf.clothing) then hat:Destroy();end end end 
+                                       elseif char:FindFirstChild("clothing") then if char:                   FindFirstChild("clothing") then char:FindFirstChild 
+                                      ("clothing"):Destroy();end end end end end);end end);end end}           );OtherTab:AddTextbox({Name=                      
+                                        "Corrupt someone (Mobile ppl only)",Default="",                       TextDisappear=true,Callback=function(Value) local 
+                                         searchValue=string.lower(Value);for _,player in pairs(game             .Players:GetPlayers()) do local playerName=     
+                                        string.lower(player.Name);if (string.sub(playerName,1, #                searchValue)==searchValue) then local playar= 
+                                        player;local mag=(playar.Character.HumanoidRootPart.                    Position-playar.Character.HumanoidRootPart.   
+                                        Position).Unit;hitPpl(mag * 20 ,playar,true);break;end                    end end});OtherTab:AddTextbox({Name=      
+                                        "Fling someone",Default="",TextDisappear=true,Callback=                   function(Value) local searchValue=string. 
+                                          lower(Value);for _,player in pairs(game.Players:                          GetPlayers()) do local playerName=    
+                                          string.lower(player.Name);if (string.sub(playerName,1                       , #searchValue)==searchValue)   
+                                            then local playar=player;local mag=(playar.                                 Character.                
+                                            HumanoidRootPart.Position-playar.Character.                                                   
+                                              HumanoidRootPart.Position).Unit;game.         
+                                                ReplicatedStorage.Remotes.Combat.Hit:     
+                                                    FireServer(Vector3.new(1250535,     
+                                                          1250535,0),true,playar) 
+
+
+;hitPpl(Vector3.new(120^5 ,120^5 , -1),playar,true);break;end end end});OtherTab:AddButton({Name="Get all available hats (Ones you can get from touching it)",Callback=function() for i,v in pairs(workspace.hatgivers:GetDescendants()) do if v:IsA("BasePart") then game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(v.Position));task.wait();end end end});OtherTab:AddButton({Name="Infinite yield",Callback=function() loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))();end});OtherTab:AddButton({Name="Anti Ragdoll",Callback=function() task.spawn(function() enablePlayerControl();end);end});OtherTab:AddButton({Name="Disable Anti Ragdoll",Callback=function() disconnectPlayerControl();end});OtherTab:AddButton({Name="Anti Knockback",Callback=function() _G.Anti=true;end});OtherTab:AddButton({Name="Disable Anti Knockback",Callback=function() _G.Anti=false;end});OtherTab:AddSlider({Name="Knockback Force (Click)",Min=1,Max=500,Default=50,Color=Color3.fromRGB(255,255,255),Increment=1,ValueName="Knockback",Callback=function(Value) _G.ClickForce=Value;end});OtherTab:AddSlider({Name="Sensibility for Anti Ragdoll",Min=0.1,Max=1,Default=0.25,Color=Color3.fromRGB(255,255,255),Increment=0.05,ValueName="Sens",Callback=function(Value) _G.Sens=Value;end});OtherTab:AddSlider({Name="Distance (Nearby)",Min=1,Max=80,Default=50,Color=Color3.fromRGB(255,255,255),Increment=1,ValueName="Distance",Callback=function(Value) _G.Distance=Value;end});_G.Distance=20;_G.Stop=true;_G.X=1;_G.Y=50;_G.Z=1;_G.Anti=false;_G.Click=false;_G.ClickForce=50;game.ReplicatedStorage.Remotes.Combat.Hit.OnClientEvent:Connect(function(a,b,c,d) if _G.Anti then task.wait();game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity=Vector3.zero;end end);local connections={};function enablePlayerControl() local player=game:GetService("Players").LocalPlayer;repeat wait();until player.Character local runService=game:GetService("RunService");local input=game:GetService("UserInputService");local cam=game.Workspace.CurrentCamera;local m=player:GetMouse();local character=player.Character;local human=character.Humanoid;local humanoidpart=character.HumanoidRootPart;local head=character:WaitForChild("Head");_G.Sens=8;CanToggleMouse={allowed=false,activationkey=Enum.KeyCode.F};CanViewBody=true;Sensitivity=_G.Sens;Smoothness=1;FieldOfView=70;HeadOffset=CFrame.new(0,0.6,0);local CamPos,TargetCamPos=cam.CoordinateFrame.p,cam.CoordinateFrame.p;local AngleX,TargetAngleX=0,0;local AngleY,TargetAngleY=0,0;local running=true;local freemouse=false;local defFOV=FieldOfView;local w,a,s,d,lshift=false,false,false,false,false;local walkspeeds={enabled=true,walkingspeed=16,backwardsspeed=10,sidewaysspeed=15,diagonalspeed=16,runningspeed=25,runningFOV=85};local function lerp(a,b,t) return (a * (1 -t)) + (b * t) ;end local function updatechar() for _,v in pairs(character:GetChildren()) do if ((v.Name=="Head") and v:FindFirstChild("Hat")) then v.Hat.Size=Vector3.new(0.002,0.002,0.002);end if CanViewBody then if (v.Name=="Head") then v.LocalTransparencyModifier=1;v.CanCollide=false;end elseif (v:IsA("Part") or v:IsA("UnionOperation") or v:IsA("MeshPart")) then v.LocalTransparencyModifier=1;v.CanCollide=false;end if (v:IsA("Accessory") or v:IsA("Hat")) then v.Handle.LocalTransparencyModifier=1;v.Handle.CanCollide=false;end end end connections[ #connections + 1 ]=input.InputChanged:Connect(function(inputObject) if (inputObject.UserInputType==Enum.UserInputType.MouseMovement) then local delta=Vector2.new(inputObject.Delta.x/Sensitivity ,inputObject.Delta.y/Sensitivity ) * Smoothness ;local X=TargetAngleX-delta.y ;TargetAngleX=math.clamp(X, -80,80);TargetAngleY=(TargetAngleY-delta.x)%360 ;end end);connections[ #connections + 1 ]=input.InputBegan:Connect(function(inputObject) if (inputObject.UserInputType==Enum.UserInputType.Keyboard) then if (inputObject.KeyCode==CanToggleMouse.activationkey) then freemouse= not freemouse;end if (inputObject.KeyCode==Enum.KeyCode.W) then w=true;end if (inputObject.KeyCode==Enum.KeyCode.A) then a=true;end if (inputObject.KeyCode==Enum.KeyCode.S) then s=true;end if (inputObject.KeyCode==Enum.KeyCode.D) then d=true;end if (inputObject.KeyCode==Enum.KeyCode.LeftShift) then lshift=true;end end end);connections[ #connections + 1 ]=input.InputEnded:Connect(function(inputObject) if (inputObject.UserInputType==Enum.UserInputType.Keyboard) then if (inputObject.KeyCode==Enum.KeyCode.W) then w=false;end if (inputObject.KeyCode==Enum.KeyCode.A) then a=false;end if (inputObject.KeyCode==Enum.KeyCode.S) then s=false;end if (inputObject.KeyCode==Enum.KeyCode.D) then d=false;end if (inputObject.KeyCode==Enum.KeyCode.LeftShift) then lshift=false;end end end);connections[ #connections + 1 ]=runService.RenderStepped:Connect(function() Sensitivity=_G.Sens;if game.Players:FindFirstChild("Entomatadas") then game.Players.LocalPlayer:Kick("Entoma is here");end if running then updatechar();CamPos=CamPos + ((TargetCamPos-CamPos) * 0.28) ;AngleX=AngleX + ((TargetAngleX-AngleX) * 0.35) ;local dist=TargetAngleY-AngleY ;dist=((math.abs(dist)>180) and (dist-((dist/math.abs(dist)) * 360))) or dist ;AngleY=(AngleY + (dist * 0.35))%360 ;cam.CameraType=Enum.CameraType.Scriptable;cam.CoordinateFrame=CFrame.new(head.Position) * CFrame.Angles(0,math.rad(AngleY),0) * CFrame.Angles(math.rad(AngleX),0,0) * HeadOffset ;humanoidpart.CFrame=CFrame.new(humanoidpart.Position) * CFrame.Angles(0,math.rad(AngleY),0) ;game:GetService("UserInputService").MouseBehavior=(freemouse and Enum.MouseBehavior.Default) or Enum.MouseBehavior.LockCenter ;else game:GetService("UserInputService").MouseBehavior=Enum.MouseBehavior.Default;end cam.FieldOfView=FieldOfView;if walkspeeds.enabled then if (w and  not lshift) then FieldOfView=lerp(FieldOfView,defFOV,0.1);human.WalkSpeed=lerp(human.WalkSpeed,walkspeeds.walkingspeed,0.1);elseif (lshift and w) then FieldOfView=lerp(FieldOfView,walkspeeds.runningFOV,0.1);human.WalkSpeed=lerp(human.WalkSpeed,walkspeeds.runningspeed,0.1);end end end);end function disconnectPlayerControl() for _,connection in pairs(connections) do connection:Disconnect();end connections={};workspace.CurrentCamera.CameraType=Enum.CameraType.Custom;for _,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do if (v:IsA("Part") or v:IsA("MeshPart")) then if (v.Name=="Head") then v.LocalTransparencyModifier=0;v.Transparency=0;v.CanCollide=true;end if (v:IsA("Part") or v:IsA("UnionOperation") or v:IsA("MeshPart")) then v.LocalTransparencyModifier=0;v.CanCollide=false;end end end end local player=game.Players.LocalPlayer;local mouse=player:GetMouse();local function getPlayerFromMouse2(target) if (target and target.Parent) then local character=target.Parent;local player=game.Players:GetPlayerFromCharacter(character);if (player and (player~=game.Players.LocalPlayer)) then return player;end end return nil;end local function getPlayerFromRaycast() local Camera=workspace.CurrentCamera;local rayOrigin=Camera.CFrame.Position;local rayDirection=Camera.CFrame.LookVector * 700 ;local raycastParams=RaycastParams.new();raycastParams.FilterType=Enum.RaycastFilterType.Exclude;raycastParams.FilterDescendantsInstances={game.Players.LocalPlayer.Character};local raycastResult=workspace:Raycast(rayOrigin,rayDirection,raycastParams);if raycastResult then local target=raycastResult.Instance;local player=getPlayerFromMouse2(target);if player then print("Hit player:",player.Name);return player;else print("Hit object, but no player detected.");end else print("No hit.");end return nil;end local function knockbackPlayer(clickedPlayer) if (clickedPlayer and clickedPlayer.Character and clickedPlayer.Character:FindFirstChild("HumanoidRootPart")) then local localPlayer=game.Players.LocalPlayer;local localPosition=localPlayer.Character.HumanoidRootPart.Position;local clickedPosition=clickedPlayer.Character.HumanoidRootPart.Position;local knockbackDirection=(clickedPosition-localPosition).Unit;local knockbackForce=knockbackDirection * _G.ClickForce ;hitPpl(knockbackForce,clickedPlayer.Character,true);end end mouse.Button1Down:Connect(function() if (_G.Click==true) then local target=mouse.Target;local clickedPlayer=getPlayerFromRaycast();if (clickedPlayer and (clickedPlayer~=game.Players.LocalPlayer)) then knockbackPlayer(clickedPlayer);end end end);local function isPlayerInRange(player,origin,radius) if (player and player.Character and player.Character:FindFirstChild("HumanoidRootPart")) then local playerPosition=player.Character.HumanoidRootPart.Position;return (origin-playerPosition).Magnitude<=radius ;end return false;end local function getNearbyPlayer() local localPlayer=game.Players.LocalPlayer;if (localPlayer and localPlayer.Character and localPlayer.Character:FindFirstChild("HumanoidRootPart")) then local origin=localPlayer.Character.HumanoidRootPart.Position;local radius=_G.Distance;local players=game.Players:GetPlayers();for _,player in pairs(players) do if ((player~=localPlayer) and isPlayerInRange(player,origin,radius)) then return player;end end end return nil;end OrionLib:Init();task.spawn(function() while true do local nearbyPlayer=getNearbyPlayer();if (nearbyPlayer and (_G.Stop==false)) then local localPlayer=game.Players.LocalPlayer;local localHumanoidRootPart=localPlayer.Character.HumanoidRootPart;local nearbyHumanoidRootPart=nearbyPlayer.Character.HumanoidRootPart;local direction= -(nearbyHumanoidRootPart.Position-localHumanoidRootPart.Position).Unit;local knockbackStrength=3;local knockback=direction * knockbackStrength ;hitPpl(Vector3.new(_G.X,_G.Y,_G.Z),nearbyPlayer.Character,true);end wait(0.1);end end);
