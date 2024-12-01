@@ -760,7 +760,7 @@ OtherTab:AddSlider({
 		_G.ClickForce = Value
 	end    
 })
-OtherTab:AddSlider({
+unused:AddSlider({
 	Name = "Sensibility for Anti Ragdoll",
 	Min = 0.1,
 	Max = 1,
