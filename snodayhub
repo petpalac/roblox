@@ -37,29 +37,25 @@ local Section = OtherTab:AddSection({
 	Name = "Combat"
 })
 
-
 OtherTab:AddButton({
 	Name = "Enable Click to hit",
 	Callback = function()
 		_G.Click = true
 	end    
 })
-
 OtherTab:AddButton({
 	Name = "Disable Click to hit",
 	Callback = function()
 		_G.Click = false
 	end    
 })
-
 local yeah = nil
-
+local e = false
 OtherTab:AddButton({
 	Name = "Give All Hats (FE)",
 	Callback = function()
-		local e = false
 		if yeah then
-		
+
 		else
 			yeah = game["Run Service"].RenderStepped:Connect(function()
 				if not e then
@@ -241,12 +237,12 @@ OtherTab:AddButton({
 								end)
 							end
 						end)
+
 						_G.V = false
 
 						if not _G.V then
 							_G.V = true
 							local finished = true
-							print("aaaa")
 							inv.Visible = false
 							delay(.1,function()
 								inv.Visible = true
@@ -293,31 +289,27 @@ OtherTab:AddButton({
 
 										for sectionIndex, sectionItems in pairs(sections) do
 											for itemIndex, itemData in pairs(sectionItems) do
-												local rarity = sectionItems.Rarity or 1  -- Default to 1 if rarity isn't provided
+												local rarity = sectionItems.Rarity or 1  
 
-												-- If the rarity section doesn't exist, create it
 												if not raritySections[rarity] then
 													raritySections[rarity] = {}
 												end
 
-												-- Add the item to the corresponding rarity section
 												table.insert(raritySections[rarity], sectionItems)
 											end
 										end
-										-- Loop through rarity sections and build UI
+
 										for rarityIndex, sectionItems in pairs(raritySections) do
 											local sectionFrame = frames:Clone()
 
-											-- If rarity data exists, set rarity label and background color
 											if ranks.RARITIES[rarityIndex] then
 												sectionFrame.rarityheading.raritylabel.Text = ranks.RARITIES[rarityIndex].Name
 												sectionFrame.rarityheading.BackgroundColor3 = ranks.RARITIES[rarityIndex].Color3
 											else
 												warn("Failed to find rarity:", rarityIndex)
-												continue  -- Skip to the next rarity if not found
+												continue 
 											end
 
-											-- Loop through each item in the section
 											for itemIndex, itemData in pairs(sectionItems) do
 												if sectionFrame.itemgrid:FindFirstChild(itemData.Model.Name) then
 													continue
@@ -329,27 +321,44 @@ OtherTab:AddButton({
 													itemFrame.Parent = sectionFrame.itemgrid
 													itemFrame.Name = itemData.Model.Name
 
-													-- Set item thumbnail
 													itemFrame.itembutton.thumbnailimg.Image = itemData.Thumbnail or ""
 
-													-- Handle item model if viewport is enabled
 													if not itemData.DisableViewport then
 														local itemModel = itemData.Model:Clone()
 														local cf = CFrame.new()
 
-														--itemModel.CFrame = CFrame.new(0,0,0)
-
-														-- Apply any model offset
 														if itemData.ThumbnailModelOffset then
 															cf = cf * itemData.ThumbnailModelOffset
 														end
+
 														itemModel:PivotTo(cf)
-														-- Set model parent and camera for the viewport
+
 														itemModel.Parent = itemFrame.itembutton.thumbnailviewport
 
 														itemFrame.itembutton.thumbnailviewport.CurrentCamera = _G.CameraInv
 
-														-- Connect item click to equip action
+														itemFrame.itembutton.MouseEnter:Connect(function()
+															if inv:FindFirstChild("description") then
+																pcall(function()
+																	local desc = inv:FindFirstChild("description")
+																	desc.desc.Text = itemData.Description or "ento has left nothing here lol"
+																	desc.name.Text = itemData.Name or "ento has left nothing here again lol"
+																	local desc = inv:FindFirstChild("description")
+																	local itt = itemModel:Clone()
+																	local cf2 = CFrame.new()
+
+																	if itemData.ThumbnailModelOffset then
+																		cf2 = cf2 * itemData.ThumbnailModelOffset
+																	end
+
+																	itt:PivotTo(cf)
+																	desc.itembuttonframe.itembutton.thumbnailviewport:ClearAllChildren()
+																	itt.Parent = desc.itembuttonframe.itembutton.thumbnailviewport
+																	desc.itembuttonframe.itembutton.thumbnailimg.Image = itemData.Thumbnail or ""
+																end)
+															end
+														end)
+
 														itemFrame.itembutton.MouseButton1Down:Connect(function()
 															if itemData.Model then
 																local naem = itemData.Type:lower() or "hat"
@@ -371,7 +380,6 @@ OtherTab:AddButton({
 												end
 											end
 
-											-- Set up the section frame layout and size
 											sectionFrame.Parent = scrollFrame
 											--delay(.1,function()
 											sectionFrame.itemgrid.Size = UDim2.new(1, 0, 0, sectionFrame.itemgrid.UIGridLayout.AbsoluteContentSize.Y + 10)
@@ -588,7 +596,6 @@ OtherTab:AddButton({
 		end
 	end    
 })
-
 OtherTab:AddTextbox({
 	Name = "Corrupt someone (Mobile ppl only)",
 	Default = "",
@@ -606,26 +613,24 @@ OtherTab:AddTextbox({
 		end
 	end   
 })
-
 OtherTab:AddTextbox({
 	Name = "Fling someone",
 	Default = "",
 	TextDisappear = true,
 	Callback = function(Value)
-		local searchValue = string.lower(Value)  -- Convert input to lowercase
+		local searchValue = string.lower(Value)  
 		for _, player in pairs(game.Players:GetPlayers()) do
-			local playerName = string.lower(player.Name)  -- Convert player name to lowercase
-			if string.sub(playerName, 1, #searchValue) == searchValue then  -- Check if player's name starts with the input
+			local playerName = string.lower(player.Name)  
+			if string.sub(playerName, 1, #searchValue) == searchValue then  
 				local playar = player
 				local mag = (playar.Character.HumanoidRootPart.Position - playar.Character.HumanoidRootPart.Position).Unit
-				game.ReplicatedStorage.Remotes.Combat.Hit:FireServer(Vector3.new(1250535,1250535,0), true, playar)
+				game.ReplicatedStorage.Remotes.Combat.Hit:FireServer(Vector3.new(12505,1250,8), true, playar)
 				hitPpl(Vector3.new(120^5,120^5,-1), playar, true)
 				break
 			end
 		end
 	end   
 })
-
 OtherTab:AddButton({
 	Name = "Get all available hats (Ones you can get from touching it)",
 	Callback = function()
@@ -637,14 +642,12 @@ OtherTab:AddButton({
 		end
 	end    
 })
-
 OtherTab:AddButton({
 	Name = "Infinite yield",
 	Callback = function()
 		loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 	end    
 })
-
 OtherTab:AddButton({
 	Name = "Anti Ragdoll",
 	Callback = function()
@@ -653,29 +656,24 @@ OtherTab:AddButton({
 		end)
 	end    
 })
-
 OtherTab:AddButton({
 	Name = "Disable Anti Ragdoll",
 	Callback = function()
 		disconnectPlayerControl()
 	end    
 })
-
 OtherTab:AddButton({
 	Name = "Anti Knockback",
 	Callback = function()
 		_G.Anti = true
 	end    
 })
-
 OtherTab:AddButton({
 	Name = "Disable Anti Knockback",
 	Callback = function()
 		_G.Anti = false
 	end    
 })
-
-
 OtherTab:AddSlider({
 	Name = "Knockback Force (Click)",
 	Min = 1,
@@ -688,7 +686,6 @@ OtherTab:AddSlider({
 		_G.ClickForce = Value
 	end    
 })
-
 OtherTab:AddSlider({
 	Name = "Sensibility for Anti Ragdoll",
 	Min = 0.1,
@@ -701,7 +698,6 @@ OtherTab:AddSlider({
 		_G.Sens = Value
 	end    
 })
-
 OtherTab:AddSlider({
 	Name = "Distance (Nearby)",
 	Min = 1,
@@ -714,9 +710,7 @@ OtherTab:AddSlider({
 		_G.Distance = Value
 	end    
 })
-
 -- ACTUAL CODING GAMING:
-
 _G.Distance = 20
 _G.Stop = true
 _G.X = 1
@@ -725,16 +719,13 @@ _G.Z = 1
 _G.Anti = false
 _G.Click = false
 _G.ClickForce = 50
-
 game.ReplicatedStorage.Remotes.Combat.Hit.OnClientEvent:Connect(function(a,b,c,d)
 	if _G.Anti then
 		task.wait()
 		game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.zero
 	end
 end)
-
 local connections = {}
-
 function enablePlayerControl()
 	local player = game:GetService("Players").LocalPlayer
 	repeat wait() until player.Character
@@ -872,7 +863,6 @@ function enablePlayerControl()
 		end
 	end)
 end
-
 function disconnectPlayerControl()
 	for _, connection in pairs(connections) do
 		connection:Disconnect()
@@ -894,11 +884,8 @@ function disconnectPlayerControl()
 		end
 	end
 end
-
-
 local player = game.Players.LocalPlayer
 local mouse = player:GetMouse()
-
 local function getPlayerFromMouse2(target)
 	if target and target.Parent then
 		local character = target.Parent
@@ -909,18 +896,14 @@ local function getPlayerFromMouse2(target)
 	end
 	return nil
 end
-
 local function getPlayerFromRaycast()
-	-- Raycast parameters
 	local Camera = workspace.CurrentCamera
 	local rayOrigin = Camera.CFrame.Position
-	local rayDirection = Camera.CFrame.LookVector * 700 -- 100 studs max distance
+	local rayDirection = Camera.CFrame.LookVector * 700 
 
 	local raycastParams = RaycastParams.new()
-	raycastParams.FilterType = Enum.RaycastFilterType.Exclude -- Exclude specific objects
-	raycastParams.FilterDescendantsInstances = {game.Players.LocalPlayer.Character} -- Ignore the local player's character
-
-	-- Perform the raycast
+	raycastParams.FilterType = Enum.RaycastFilterType.Exclude 
+	raycastParams.FilterDescendantsInstances = {game.Players.LocalPlayer.Character}
 	local raycastResult = workspace:Raycast(rayOrigin, rayDirection, raycastParams)
 
 	if raycastResult then
@@ -937,25 +920,19 @@ local function getPlayerFromRaycast()
 	end
 	return nil
 end
-
 local function knockbackPlayer(clickedPlayer)
 	if clickedPlayer and clickedPlayer.Character and clickedPlayer.Character:FindFirstChild("HumanoidRootPart") then
 		local localPlayer = game.Players.LocalPlayer
 		local localPosition = localPlayer.Character.HumanoidRootPart.Position
 		local clickedPosition = clickedPlayer.Character.HumanoidRootPart.Position
 
-		-- Calculate the knockback direction using the unit vector
 		local knockbackDirection = (clickedPosition - localPosition).Unit
 
-		-- Apply a knockback force (scaling the unit vector)
-		local knockbackForce = knockbackDirection * _G.ClickForce -- Adjust this multiplier as needed
+		local knockbackForce = knockbackDirection * _G.ClickForce
 
-		-- Fire the server event with the calculated knockback direction
-		--game.ReplicatedStorage.Remotes.Combat.Hit:FireServer(knockbackForce, true, clickedPlayer)
 		hitPpl(knockbackForce,clickedPlayer.Character,true)
 	end
 end
-
 mouse.Button1Down:Connect(function()
 	if _G.Click == true then 
 		local target = mouse.Target
@@ -966,7 +943,6 @@ mouse.Button1Down:Connect(function()
 		end
 	end
 end)
-
 local function isPlayerInRange(player, origin, radius)
 	if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
 		local playerPosition = player.Character.HumanoidRootPart.Position
@@ -974,7 +950,6 @@ local function isPlayerInRange(player, origin, radius)
 	end
 	return false
 end
-
 local function getNearbyPlayer()
 	local localPlayer = game.Players.LocalPlayer
 	if localPlayer and localPlayer.Character and localPlayer.Character:FindFirstChild("HumanoidRootPart") then
@@ -991,7 +966,6 @@ local function getNearbyPlayer()
 	return nil
 end
 OrionLib:Init()
-
 task.spawn(function()
 	while true do
 		local nearbyPlayer = getNearbyPlayer()
@@ -1001,16 +975,13 @@ task.spawn(function()
 			local localHumanoidRootPart = localPlayer.Character.HumanoidRootPart
 			local nearbyHumanoidRootPart = nearbyPlayer.Character.HumanoidRootPart
 
-			-- Calculate direction (unit vector) from nearby player to local player
 			local direction = -(nearbyHumanoidRootPart.Position - localHumanoidRootPart.Position).Unit
 			local knockbackStrength = 3 -- Adjust the strength as needed
 			local knockback = direction * knockbackStrength
 
-			-- Fire the server event with the knockback direction
 			hitPpl(Vector3.new(_G.X,_G.Y,_G.Z),nearbyPlayer.Character,true)
-			--game.ReplicatedStorage.Remotes.Combat.Hit:FireServer(Vector3.new(_G.X,_G.Y,_G.Z), true, nearbyPlayer)
 		end
 
-		wait(0.1) -- Adjust the loop interval as needed
+		wait(0.1) 
 	end
 end)
