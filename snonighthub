@@ -358,7 +358,10 @@ OtherTab:AddButton({
 
 														itemFrame.itembutton.MouseEnter:Connect(function()
 															if inv:FindFirstChild("description") then
-																spawn(function()
+																pcall(function()
+																	local desc = inv:FindFirstChild("description")
+																	desc.desc.Text = itemData.Description or "ento has left nothing here lol"
+																	desc.name.Text = itemData.Name or "ento has left nothing here again lol"
 																	local desc = inv:FindFirstChild("description")
 																	local itt = itemModel:Clone()
 																	local cf2 = CFrame.new()
@@ -370,11 +373,7 @@ OtherTab:AddButton({
 																	itt:PivotTo(cf)
 																	desc.itembuttonframe.itembutton.thumbnailviewport:ClearAllChildren()
 																	itt.Parent = desc.itembuttonframe.itembutton.thumbnailviewport
-																end)
-																spawn(function()
-																	local desc = inv:FindFirstChild("description")
-																	desc.desc.Text = itemData.Description or "ento has left nothing here lol"
-																	desc.name.Text = itemData.Name or "ento has left nothing here again lol"
+																	desc.itembuttonframe.itembutton.thumbnailimg.Image = itemData.Thumbnail or ""
 																end)
 															end
 														end)
