@@ -299,31 +299,27 @@ OtherTab:AddButton({
 
 										for sectionIndex, sectionItems in pairs(sections) do
 											for itemIndex, itemData in pairs(sectionItems) do
-												local rarity = sectionItems.Rarity or 1  -- Default to 1 if rarity isn't provided
+												local rarity = sectionItems.Rarity or 1  
 
-												-- If the rarity section doesn't exist, create it
 												if not raritySections[rarity] then
 													raritySections[rarity] = {}
 												end
 
-												-- Add the item to the corresponding rarity section
 												table.insert(raritySections[rarity], sectionItems)
 											end
 										end
-										-- Loop through rarity sections and build UI
+										
 										for rarityIndex, sectionItems in pairs(raritySections) do
 											local sectionFrame = frames:Clone()
 
-											-- If rarity data exists, set rarity label and background color
 											if ranks.RARITIES[rarityIndex] then
 												sectionFrame.rarityheading.raritylabel.Text = ranks.RARITIES[rarityIndex].Name
 												sectionFrame.rarityheading.BackgroundColor3 = ranks.RARITIES[rarityIndex].Color3
 											else
 												warn("Failed to find rarity:", rarityIndex)
-												continue  -- Skip to the next rarity if not found
+												continue 
 											end
 
-											-- Loop through each item in the section
 											for itemIndex, itemData in pairs(sectionItems) do
 												if sectionFrame.itemgrid:FindFirstChild(itemData.Model.Name) then
 													continue
@@ -335,23 +331,18 @@ OtherTab:AddButton({
 													itemFrame.Parent = sectionFrame.itemgrid
 													itemFrame.Name = itemData.Model.Name
 
-													-- Set item thumbnail
 													itemFrame.itembutton.thumbnailimg.Image = itemData.Thumbnail or ""
 
-													-- Handle item model if viewport is enabled
 													if not itemData.DisableViewport then
 														local itemModel = itemData.Model:Clone()
 														local cf = CFrame.new()
 
-														-- Apply any model offset
 														if itemData.ThumbnailModelOffset then
 															cf = cf * itemData.ThumbnailModelOffset
 														end
 
-
 														itemModel:PivotTo(cf)
 
-														-- Set model parent and camera for the viewport
 														itemModel.Parent = itemFrame.itembutton.thumbnailviewport
 
 														itemFrame.itembutton.thumbnailviewport.CurrentCamera = _G.CameraInv
@@ -378,7 +369,6 @@ OtherTab:AddButton({
 															end
 														end)
 
-														-- Connect item click to equip action
 														itemFrame.itembutton.MouseButton1Down:Connect(function()
 															if itemData.Model then
 																local naem = itemData.Type:lower() or "hat"
@@ -400,7 +390,6 @@ OtherTab:AddButton({
 												end
 											end
 
-											-- Set up the section frame layout and size
 											sectionFrame.Parent = scrollFrame
 											--delay(.1,function()
 											sectionFrame.itemgrid.Size = UDim2.new(1, 0, 0, sectionFrame.itemgrid.UIGridLayout.AbsoluteContentSize.Y + 10)
@@ -639,13 +628,13 @@ OtherTab:AddTextbox({
 	Default = "",
 	TextDisappear = true,
 	Callback = function(Value)
-		local searchValue = string.lower(Value)  -- Convert input to lowercase
+		local searchValue = string.lower(Value)  
 		for _, player in pairs(game.Players:GetPlayers()) do
-			local playerName = string.lower(player.Name)  -- Convert player name to lowercase
-			if string.sub(playerName, 1, #searchValue) == searchValue then  -- Check if player's name starts with the input
+			local playerName = string.lower(player.Name)  
+			if string.sub(playerName, 1, #searchValue) == searchValue then  
 				local playar = player
 				local mag = (playar.Character.HumanoidRootPart.Position - playar.Character.HumanoidRootPart.Position).Unit
-				game.ReplicatedStorage.Remotes.Combat.Hit:FireServer(Vector3.new(1250535,1250535,0), true, playar)
+				game.ReplicatedStorage.Remotes.Combat.Hit:FireServer(Vector3.new(12505,1250,8), true, playar)
 				hitPpl(Vector3.new(120^5,120^5,-1), playar, true)
 				break
 			end
@@ -918,16 +907,13 @@ local function getPlayerFromMouse2(target)
 	return nil
 end
 local function getPlayerFromRaycast()
-	-- Raycast parameters
 	local Camera = workspace.CurrentCamera
 	local rayOrigin = Camera.CFrame.Position
-	local rayDirection = Camera.CFrame.LookVector * 700 -- 100 studs max distance
+	local rayDirection = Camera.CFrame.LookVector * 700 
 
 	local raycastParams = RaycastParams.new()
-	raycastParams.FilterType = Enum.RaycastFilterType.Exclude -- Exclude specific objects
-	raycastParams.FilterDescendantsInstances = {game.Players.LocalPlayer.Character} -- Ignore the local player's character
-
-	-- Perform the raycast
+	raycastParams.FilterType = Enum.RaycastFilterType.Exclude 
+	raycastParams.FilterDescendantsInstances = {game.Players.LocalPlayer.Character}
 	local raycastResult = workspace:Raycast(rayOrigin, rayDirection, raycastParams)
 
 	if raycastResult then
@@ -950,14 +936,10 @@ local function knockbackPlayer(clickedPlayer)
 		local localPosition = localPlayer.Character.HumanoidRootPart.Position
 		local clickedPosition = clickedPlayer.Character.HumanoidRootPart.Position
 
-		-- Calculate the knockback direction using the unit vector
 		local knockbackDirection = (clickedPosition - localPosition).Unit
 
-		-- Apply a knockback force (scaling the unit vector)
-		local knockbackForce = knockbackDirection * _G.ClickForce -- Adjust this multiplier as needed
+		local knockbackForce = knockbackDirection * _G.ClickForce
 
-		-- Fire the server event with the calculated knockback direction
-		--game.ReplicatedStorage.Remotes.Combat.Hit:FireServer(knockbackForce, true, clickedPlayer)
 		hitPpl(knockbackForce,clickedPlayer.Character,true)
 	end
 end
@@ -1003,16 +985,13 @@ task.spawn(function()
 			local localHumanoidRootPart = localPlayer.Character.HumanoidRootPart
 			local nearbyHumanoidRootPart = nearbyPlayer.Character.HumanoidRootPart
 
-			-- Calculate direction (unit vector) from nearby player to local player
 			local direction = -(nearbyHumanoidRootPart.Position - localHumanoidRootPart.Position).Unit
 			local knockbackStrength = 3 -- Adjust the strength as needed
 			local knockback = direction * knockbackStrength
 
-			-- Fire the server event with the knockback direction
 			hitPpl(Vector3.new(_G.X,_G.Y,_G.Z),nearbyPlayer.Character,true)
-			--game.ReplicatedStorage.Remotes.Combat.Hit:FireServer(Vector3.new(_G.X,_G.Y,_G.Z), true, nearbyPlayer)
 		end
 
-		wait(0.1) -- Adjust the loop interval as needed
+		wait(0.1) 
 	end
 end)
