@@ -78,7 +78,7 @@ Unused:AddButton({
 	end    
 })
 
-OtherTab:AddSlider({
+Unused:AddSlider({
 	Name = "Sensibility for Anti Ragdoll",
 	Min = 0.1,
 	Max = 1,
@@ -708,7 +708,7 @@ OtherTab:AddButton({
 })
 
 
-Unused:AddButton({
+OtherTab:AddButton({
 	Name = "Anti Knockback v1",
 	Callback = function()
 		spawn(function()
@@ -731,7 +731,7 @@ Unused:AddButton({
 		end)
 	end    
 })
-Unused:AddButton({
+OtherTab:AddButton({
 	Name = "Disable Anti Knockback v1",
 	Callback = function()
 		spawn(function()
