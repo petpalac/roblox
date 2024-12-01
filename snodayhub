@@ -712,7 +712,7 @@ OtherTab:AddButton({
 	Name = "Anti Knockback v1",
 	Callback = function()
 		spawn(function()
-			if game.Players.LocalPlayer.CameraMode == Enum.CameraMode.Classic then -- NOT RAGDOLLED!
+			if game.Players.LocalPlayer.CameraMode == Enum.CameraMode.LockFirstPerson then -- NOT RAGDOLLED!
 				local ins = Instance.new("RemoteEvent")
 				local hit = game.ReplicatedStorage.Remotes.Combat.Hit
 				hit.Name = "Hit1"
@@ -740,7 +740,7 @@ OtherTab:AddButton({
 			--hit.Name = "Hit1"
 			--ins.Parent = game.ReplicatedStorage.Remotes.Combat
 			--ins.Name = "Hit"
-			if game.Players.LocalPlayer.CameraMode == Enum.CameraMode.Classic then -- NOT RAGDOLLED!
+			if game.Players.LocalPlayer.CameraMode == Enum.CameraMode.LockFirstPersonA then -- NOT RAGDOLLED!
 				game.Players.LocalPlayer.PlayerScripts.PlayerScriptsLoader.Enabled = false
 				game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,.1,0)))
 				task.wait(.01)
