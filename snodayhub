@@ -1,3 +1,8 @@
+if game.PlaceId == 14689129434 then -- sno night
+    loadstring(game:HttpGet(('https://raw.githubusercontent.com/petpalac/roblox/refs/heads/main/snonighthub')))()
+    return
+end
+
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/petpalac/roblox/refs/heads/main/orionfix')))()
 
 local Window = OrionLib:MakeWindow({Name = "Sno Day Hub (made by petpalac)", HidePremium = false, SaveConfig = false, ConfigFolder = "OrionTest"})
