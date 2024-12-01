@@ -36,6 +36,16 @@ local OtherTab = Window:MakeTab({
 local Section = OtherTab:AddSection({
 	Name = "Combat"
 })
+
+OtherTab:AddButton({
+	Name = "Get 50k Score",
+	Callback = function()
+		if game.ReplicatedStorage.Remotes.Data:FindFirstChild("RebootChoice") then
+			game.ReplicatedStorage.Remotes.Data:FindFirstChild("RebootChoice"):FireServer(true)
+		end
+	end    
+})
+
 OtherTab:AddButton({
 	Name = "Enable Click to hit",
 	Callback = function()
@@ -58,16 +68,18 @@ OtherTab:AddButton({
 		else
 			yeah = game["Run Service"].RenderStepped:Connect(function()
 				if not e then
+					e = true
 					local char = game.Players.LocalPlayer.Character
 
 					if char:FindFirstChild("yo") then
 						char:FindFirstChild("yo"):Destroy()
 					end
+					-- SNO DAY
 					_G.UISize = 0.32
 					local currentType = "Hat"
 					local ranks = {
 						RARITIES = { {
-							Name = "Deka The Ace", 
+							Name = "Common", 
 							Color3 = Color3.fromRGB(255, 255, 255)
 						}, {
 								Name = "Rare", 
@@ -89,6 +101,12 @@ OtherTab:AddButton({
 								Color3 = Color3.fromRGB(99, 239, 34)
 							} }, 
 					}
+
+
+					local s = Instance.new("LocalScript")
+					s.Parent = char
+					s.Name = "yo"
+					script = s
 
 					local defaultface = "rbxassetid://2597573017"
 
@@ -162,45 +180,53 @@ OtherTab:AddButton({
 						local inv1 = inv
 						inv1.items.scrollframe.AutomaticCanvasSize = Enum.AutomaticSize.Y
 						task.spawn(function()
-							if not _G.Cat1 then
-								_G.Cat1 = true
+							if not _G.Cat12 then
+								_G.Cat12 = true
 								inv1.catagories.Visible = true
-								inv1.catagories.Hat.MouseButton1Down:Connect(function()
-									currentType = "Hat"
-									inv.Visible = false
-									delay(.1,function()
-										inv.Visible = true
-										delay(.125,function()
-											local i = Instance.new("Frame")
-											i.Parent = inv.items.scrollframe
-											game.Debris:AddItem(i,.05)
-										end)
-									end)
-								end)
-								inv1.catagories.Clothing.MouseButton1Down:Connect(function()
-									currentType = "Clothing"
-									inv.Visible = false
-									delay(.1,function()
-										inv.Visible = true
-										delay(.125,function()
-											local i = Instance.new("Frame")
-											i.Parent = inv.items.scrollframe
-											game.Debris:AddItem(i,.05)
-										end)
-									end)
-								end)
-								inv1.catagories.Face.MouseButton1Down:Connect(function()
-									currentType = "Face"
-									inv.Visible = false
-									delay(.1,function()
-										inv.Visible = true
-										delay(.125,function()
-											local i = Instance.new("Frame")
-											i.Parent = inv.items.scrollframe
-											game.Debris:AddItem(i,.05)
-										end)
-									end)
-								end)
+								for i, v in pairs(inv1.catagories:GetChildren()) do
+									if v:IsA("TextButton") then
+										if v.Text == "Face" then
+											v.MouseButton1Down:Connect(function()
+												currentType = "Face"
+												inv.Visible = false
+												delay(0.1, function()
+													inv.Visible = true
+													delay(0.125, function()
+														local i = Instance.new("Frame")
+														i.Parent = inv.items.scrollframe
+														game.Debris:AddItem(i, 0.05)
+													end)
+												end)
+											end)
+										elseif v.Text == "Hat" then
+											v.MouseButton1Down:Connect(function()
+												currentType = "Hat"
+												inv.Visible = false
+												delay(0.1, function()
+													inv.Visible = true
+													delay(0.125, function()
+														local i = Instance.new("Frame")
+														i.Parent = inv.items.scrollframe
+														game.Debris:AddItem(i, 0.05)
+													end)
+												end)
+											end)
+										elseif v.Text == "Clothing" then
+											v.MouseButton1Down:Connect(function()
+												currentType = "Clothing"
+												inv.Visible = false
+												delay(0.1, function()
+													inv.Visible = true
+													delay(0.125, function()
+														local i = Instance.new("Frame")
+														i.Parent = inv.items.scrollframe
+														game.Debris:AddItem(i, 0.05)
+													end)
+												end)
+											end)
+										end
+									end
+								end
 
 							end
 							if not _G.unrqip2 then
@@ -342,7 +368,7 @@ OtherTab:AddButton({
 																	val = itemData.Model.TextureID
 																end
 																_G.PlayerInfo[naem] = val
-																print(naem)
+																--print(naem)
 																game.Players.LocalPlayer.Character.HumanoidRootPart.equiphat:Play()
 															end
 														end)
@@ -366,103 +392,10 @@ OtherTab:AddButton({
 										delay(0.1,function()
 											inv.UIScale.Scale = workspace.CurrentCamera.ViewportSize.Y * _G.UISize / inv.Size.Y.Offset
 										end)
+
 										return
 									end
 
-									frames.Size = UDim2.new(1, 0, 0, 4905)
-
-									frames2.Size = UDim2.new(1, 0, 0, 1655)
-
-									frames3.Size = UDim2.new(1, 0, 0, 1905)
-
-									frames.Name = "1"
-
-									frames2.Name = "2"
-
-									frames3.Name = "3"
-
-									frames3.Parent = inv.items.scrollframe
-									frames2.Parent = inv.items.scrollframe
-									frames.Parent = inv.items.scrollframe
-
-									frames.rarityheading.raritylabel.Text = "All Hats"
-
-									frames2.rarityheading.raritylabel.Text = "All Faces"
-
-									frames3.rarityheading.raritylabel.Text = "All Clothing"
-
-									for i,v in pairs(game.ReplicatedStorage.models.hats:GetChildren()) do
-										if v:IsA("BasePart") then
-											local buttons = button:Clone()
-											buttons.Parent = frames.itemgrid
-											local hat = v:Clone()
-											hat.Parent = buttons.itembutton.thumbnailviewport
-											hat.CFrame = CFrame.new(0,0,0)
-
-											buttons.itembutton.MouseButton1Down:Connect(function()
-												--if _G.PlayerInfo.hat ~= "" then
-												-- _G.PlayerInfo.hat2 = v.Name
-												-- else
-												_G.PlayerInfo.hat = v.Name
-												--end
-												game.ReplicatedStorage.Remotes.Character.EquipHat:FireServer("beebohat")
-												game.Players.LocalPlayer.Character.HumanoidRootPart.equiphat:Play()
-											end)
-											local v30 = Instance.new("Camera");
-											v30.CFrame = CFrame.new(Vector3.new(2, 1, -6), Vector3.new(0, 0, 0)) * CFrame.Angles(0, 0, -0.1);
-											v30.FieldOfView = 35;
-											v30.Parent = buttons.itembutton.thumbnailviewport;
-											buttons.itembutton.thumbnailviewport.CurrentCamera = v30
-											buttons.Name = v.Name
-											-- game["Run Service"].RenderStepped:Wait()
-										end
-									end
-
-									for i,v in pairs(game.ReplicatedStorage.models.faces:GetChildren()) do
-										if v:IsA("BasePart") then
-											local buttons = button:Clone()
-											local hat = v:Clone()
-											hat.Parent = buttons.itembutton.thumbnailviewport
-											hat.CFrame = CFrame.new(0,0,0)
-
-											buttons.itembutton.MouseButton1Down:Connect(function()
-												_G.PlayerInfo.face = v.TextureID
-											end)
-
-											buttons.Parent = frames2.itemgrid
-											local v30 = Instance.new("Camera");
-											v30.CFrame = CFrame.new(Vector3.new(2, 1, -6), Vector3.new(0, 0, 0)) * CFrame.Angles(0, 0, -0.1);
-											v30.FieldOfView = 35;
-											v30.Parent = buttons.itembutton.thumbnailviewport;
-											buttons.itembutton.thumbnailviewport.CurrentCamera = v30
-											buttons.Name = v.Name
-											--         game["Run Service"].RenderStepped:Wait()
-										end
-									end
-
-									if game.ReplicatedStorage.models:FindFirstChild("clothes") then
-										for i,v in pairs(game.ReplicatedStorage.models.clothes:GetChildren()) do
-											if v:IsA("BasePart") then
-												local buttons = button:Clone()
-												local hat = v:Clone()
-												hat.Parent = buttons.itembutton.thumbnailviewport
-												hat.CFrame = CFrame.new(0,0,0)
-
-												buttons.itembutton.MouseButton1Down:Connect(function()
-													_G.PlayerInfo.clothing = v.Name
-												end)
-
-												buttons.Parent = frames3.itemgrid
-												--         game["Run Service"].RenderStepped:Wait()
-												local v30 = Instance.new("Camera");
-												v30.CFrame = CFrame.new(Vector3.new(2, 1, -6), Vector3.new(0, 0, 0)) * CFrame.Angles(0, 0, -0.1);
-												v30.FieldOfView = 35;
-												v30.Parent = buttons.itembutton.thumbnailviewport;
-												buttons.itembutton.thumbnailviewport.CurrentCamera = v30
-												buttons.Name = v.Name
-											end
-										end
-									end
 
 									finished = true
 								elseif inv.Visible == false then
@@ -479,7 +412,6 @@ OtherTab:AddButton({
 
 					task.spawn(function()
 						local function IsParticle(arg1)
-							-- Check if arg1 is one of the specified types
 							return arg1:IsA("Sparkles") or
 								arg1:IsA("ParticleEmitter") or
 								arg1:IsA("Fire") or
