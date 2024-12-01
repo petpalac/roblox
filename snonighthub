@@ -4,7 +4,7 @@ if game.PlaceId == 2597632885 then -- sno day
     Text = "Wrong Hub! Using Sno Day Hub";
     Duration = 2.5;
     })
-    task.wait(2.45)
+    task.wait(.05)
     loadstring(game:HttpGet(('https://raw.githubusercontent.com/petpalac/roblox/refs/heads/main/snodayhub')))()
     return
 end
