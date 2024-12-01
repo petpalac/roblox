@@ -1,5 +1,5 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/juninhoytXD/s/refs/heads/main/ooooorrr')))()
-
+ 
 local Window = OrionLib:MakeWindow({Name = "Sno Night Hub (made by petpalac)", HidePremium = false, SaveConfig = false, ConfigFolder = "OrionTest"})
 
 function hitPpl(vec, person, airshot)
