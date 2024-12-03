@@ -2139,6 +2139,8 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 				end
 
 			end
+			
+			decomp = yeah
 						
 			ldecompile = function(script)
 				-- local name = scr.ClassName .. scr.Name
