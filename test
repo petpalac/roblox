@@ -2111,6 +2111,12 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 			end
 			
 			local function yeah(bytecode)
+				pcall(function()
+					print(getscriptbytecode(bytecode))
+				end)
+				pcall(function()
+					print(getbytecode(bytecode))
+				end)
 				local headers = {
 					['Content-Type'] = "application/json"
 				}
@@ -2169,11 +2175,8 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 					task.wait() -- TODO Maybe remove?
 				end
 
-				local ok, result = run_with_loading("Decompiling " .. script.Name, true, nil, decomp, getscriptbytecode(script))
-				if not result then
-					ok, result = false, "Empty Output"
-				end
-
+				local ok = true
+				local result = decomp(getscriptbytecode(script))
 				local output
 				if ok then
 					result = string.gsub(result, "\0", "\\0") -- ? Some decompilers sadly output \0 which prevents files from opening
