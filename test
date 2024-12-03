@@ -2055,7 +2055,51 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 
 				error("An unknown error occured by the server.", 2)
 			end
+			local ignoreUrls = {}
 
+			function Bridge:request(options, x)
+				if table.find(ignoreUrls, options.Url) then x = true elseif x then table.insert(ignoreUrls, options.Url) end
+				if not x and options.Url:sub(-1) ~= "/" then options.Url = options.Url .. "/" end
+				local result = self:InternalRequest({
+					['c'] = "rq",
+					['l'] = options.Url,
+					['m'] = options.Method,
+					['h'] = options.Headers,
+					['b'] = options.Body or "{}"
+				})
+				if result then
+					if result == "x" then
+						return {
+							ErrorMessage = "HttpError: DnsResolve",
+							Success = false,
+							HttpError = Enum.HttpError.DnsResolve
+						}
+					end
+					result = HttpService:JSONDecode(result)
+					if result['r'] ~= "OK" then
+						result['r'] = "Unknown"
+					end
+					if not x and (result['c'] > 299 or result['c'] < 200) then options.Url = options.Url:sub(1, -2) return Bridge:request(options, true) end
+					if result['b64'] then
+						result['b'] = base64.decode(result['b'])
+					end
+					return {
+						Success = tonumber(result['c']) and tonumber(result['c']) > 200 and tonumber(result['c']) < 300,
+						StatusMessage = result['r'], -- OK
+						StatusCode = tonumber(result['c']), -- 200
+						Body = result['b'],
+						HttpError = Enum.HttpError[result['r']],
+						Headers = result['h'],
+						Version = result['v']
+					}
+				end
+				return {
+					Success = false,
+					StatusMessage = "Can't connect to Xeno web server: " .. self.serverUrl,
+					StatusCode = 599;
+					HttpError = Enum.HttpError.ConnectFail
+				}
+			end
 		   function base64.encode(data)
 				
 				return ((data:gsub('.', function(x)
